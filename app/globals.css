@@ -317,6 +317,115 @@ h2 { font-size: 14px; margin: 0 0 12px; color: var(--text); letter-spacing: 0.05
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
+/* ============================================================
+   AUTH PAGE (login/daftar) - dipakai di app/login/page.tsx
+   ============================================================ */
+.mx-auth-wrap {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.mx-auth-card {
+  width: 100%;
+  max-width: 420px;
+  border: 1px solid rgba(0,255,136,0.3);
+  background: rgba(5,5,5,0.95);
+  backdrop-filter: blur(10px);
+  padding: 32px 28px;
+  box-shadow: 0 0 40px rgba(0,255,136,0.08);
+}
+
+.mx-intent-badge {
+  border: 1px solid rgba(0,255,136,0.3);
+  background: rgba(0,255,136,0.06);
+  color: #00FF88;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-align: center;
+  padding: 8px 10px;
+  margin-bottom: 18px;
+}
+
+.mx-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.mx-tabs button {
+  flex: 1;
+  height: 38px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.5);
+  font-family: inherit;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.mx-tabs button.active {
+  border-color: #00FF88;
+  color: #00FF88;
+  background: rgba(0,255,136,0.08);
+}
+
+.mx-field { margin-bottom: 16px; }
+.mx-field label {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: rgba(0,255,136,0.7);
+  margin-bottom: 6px;
+}
+
+.mx-input {
+  width: 100%;
+  height: 42px;
+  background: #000;
+  border: 1px solid rgba(255,255,255,0.15);
+  color: #fff;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  padding: 0 12px;
+  transition: border-color 0.2s ease;
+}
+.mx-input:focus {
+  outline: none;
+  border-color: rgba(0,255,136,0.6);
+}
+.mx-input::placeholder { color: rgba(255,255,255,0.25); }
+
+.mx-msg {
+  border: 1px solid rgba(0,255,136,0.3);
+  background: rgba(0,255,136,0.06);
+  color: #7fe0a5;
+  font-size: 11px;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.mx-terminal-hint {
+  margin-top: 20px;
+  font-size: 10px;
+  color: rgba(255,255,255,0.3);
+  text-align: center;
+}
+
+.mx-back {
+  display: block;
+  text-align: center;
+  margin-top: 14px;
+  font-size: 11px;
+  color: rgba(0,255,136,0.6);
+}
+.mx-back:hover { color: #00FF88; }
+
 /* Hormati preferensi pengguna yang mematikan animasi */
 @media (prefers-reduced-motion: reduce) {
   .mx-glow-green,
