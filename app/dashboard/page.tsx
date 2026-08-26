@@ -12,7 +12,7 @@ export default function DashboardPage() {
   const [eaUrl, setEaUrl] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const ADMIN_EMAILS = ["daryanto.id@gmail.com", "daryantoid@gmail.com"];
+  const ADMIN_EMAILS = ["daryanto.id@gmail.com", "daryanto.store@gmail.com", "linasofah44@gmail.com"];
 
   useEffect(() => {
     (async () => {
