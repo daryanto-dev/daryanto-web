@@ -185,7 +185,13 @@ h2 { font-size: 14px; margin: 0 0 12px; color: var(--text); letter-spacing: 0.05
 @keyframes mx-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
 .mx-glow-text { text-shadow: 0 0 12px rgba(0,255,136,0.8), 0 0 24px rgba(0,255,136,0.4); }
-.mx-glow-green { box-shadow: 0 0 20px rgba(0,255,136,0.4), 0 0 40px rgba(0,255,136,0.15); }
+
+/* Glow yang berdenyut pelan, bukan statis */
+@keyframes mx-pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(0,255,136,0.4), 0 0 40px rgba(0,255,136,0.15); }
+  50% { box-shadow: 0 0 30px rgba(0,255,136,0.7), 0 0 60px rgba(0,255,136,0.35); }
+}
+.mx-glow-green { animation: mx-pulse-glow 2.5s ease-in-out infinite; }
 .mx-glow-border { box-shadow: inset 0 0 0 1px rgba(0,255,136,0.5), 0 0 18px rgba(0,255,136,0.25); }
 
 .mx-header {
@@ -203,18 +209,22 @@ h2 { font-size: 14px; margin: 0 0 12px; color: var(--text); letter-spacing: 0.05
 .mx-status-strip { display: flex; align-items: center; gap: 20px; font-size: 11px; color: rgba(255,255,255,0.5); }
 .mx-dot { width: 6px; height: 6px; background: #00FF88; border-radius: 999px; display: inline-block; margin-right: 6px; animation: mx-blink 1.4s infinite; }
 
+/* Tombol: transisi halus + micro-interaction saat hover */
+.mx-btn-outline, .mx-btn-solid {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
 .mx-btn-outline {
   height: 36px; padding: 0 16px; display: inline-flex; align-items: center; gap: 8px;
   border: 1px solid rgba(0,255,136,0.5); color: #00FF88; font-size: 12px; letter-spacing: 0.15em;
   background: transparent; cursor: pointer; text-transform: uppercase;
 }
-.mx-btn-outline:hover { background: rgba(0,255,136,0.1); }
+.mx-btn-outline:hover { background: rgba(0,255,136,0.1); transform: translateY(-2px); }
 .mx-btn-solid {
   height: 36px; padding: 0 20px; display: inline-flex; align-items: center; gap: 8px;
   background: #00FF88; color: #000; font-weight: 700; font-size: 13px; letter-spacing: 0.15em;
   border: none; cursor: pointer; text-transform: uppercase;
 }
-.mx-btn-solid:hover { background: #00ffaa; }
+.mx-btn-solid:hover { background: #00ffaa; transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,255,136,0.35); }
 
 .mx-hero { position: relative; z-index: 10; max-width: 1280px; margin: 0 auto; padding: 64px 24px 40px; text-align: center; }
 .mx-badge {
@@ -224,6 +234,19 @@ h2 { font-size: 14px; margin: 0 0 12px; color: var(--text); letter-spacing: 0.05
 .mx-h1 { margin-top: 24px; font-weight: 900; line-height: 0.9; letter-spacing: -0.05em; }
 .mx-h1 .l1 { display: block; font-size: clamp(40px, 9vw, 96px); color: #00FF88; animation: mx-glitch 3s ease-in-out infinite; }
 .mx-h1 .l2 { display: block; font-size: clamp(40px, 9vw, 96px); color: #fff; }
+
+/* Kursor efek ketik di headline */
+.mx-type-cursor {
+  display: inline-block;
+  width: 0.5em;
+  height: 0.85em;
+  background: #00FF88;
+  margin-left: 6px;
+  vertical-align: -0.08em;
+  animation: mx-blink 0.8s steps(2) infinite;
+}
+.mx-l2-hidden { opacity: 0; transform: translateY(10px); }
+.mx-l2-visible { opacity: 1; transform: translateY(0); transition: opacity 0.5s ease, transform 0.5s ease; }
 
 .mx-terminal-line {
   margin: 24px auto 0; max-width: 720px; border: 1px solid rgba(255,255,255,0.1);
@@ -247,8 +270,8 @@ h2 { font-size: 14px; margin: 0 0 12px; color: var(--text); letter-spacing: 0.05
 .mx-section-title .accent { color: #00FF88; }
 
 .mx-modules-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 16px; }
-.mx-module-card { position: relative; border: 1px solid rgba(255,255,255,0.1); background: #050505; padding: 20px; transition: border-color 0.2s, background 0.2s; }
-.mx-module-card:hover { border-color: rgba(0,255,136,0.4); background: #000; }
+.mx-module-card { position: relative; border: 1px solid rgba(255,255,255,0.1); background: #050505; padding: 20px; transition: border-color 0.2s, background 0.2s, transform 0.2s; }
+.mx-module-card:hover { border-color: rgba(0,255,136,0.4); background: #000; transform: translateY(-4px); }
 .mx-module-card .top { display: flex; justify-content: space-between; align-items: flex-start; }
 .mx-module-card .icon { color: #00FF88; font-size: 18px; font-weight: 700; }
 .mx-module-card .idtag { font-size: 10px; color: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.1); padding: 3px 8px; }
@@ -256,8 +279,22 @@ h2 { font-size: 14px; margin: 0 0 12px; color: var(--text); letter-spacing: 0.05
 .mx-module-card p { margin-top: 12px; font-size: 13px; line-height: 1.6; color: rgba(255,255,255,0.6); }
 
 .mx-pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 20px; max-width: 1080px; margin: 0 auto; }
-.mx-price-card { position: relative; border: 1px solid rgba(255,255,255,0.1); background: #050505; padding: 28px 24px; display: flex; flex-direction: column; }
-.mx-price-card.popular { border-color: #00FF88; }
+.mx-price-card { position: relative; border: 1px solid rgba(255,255,255,0.1); background: #050505; padding: 28px 24px; display: flex; flex-direction: column; transition: transform 0.2s ease; }
+.mx-price-card:hover { transform: translateY(-4px); }
+
+/* Border gradient bergerak khusus card populer */
+@keyframes mx-border-flow {
+  0% { background-position: 0% 50%, 0% 50%; }
+  100% { background-position: 0% 50%, 200% 50%; }
+}
+.mx-price-card.popular {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(#050505, #050505) padding-box,
+    linear-gradient(90deg, #00FF88, #00FFFF, #00FF88) border-box;
+  background-size: 100% 100%, 200% 100%;
+  animation: mx-border-flow 3s linear infinite;
+}
 .mx-price-badge { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); font-size: 10px; letter-spacing: 0.15em; background: #00FF88; color: #000; font-weight: 900; padding: 4px 12px; }
 .mx-price-tier { font-size: 11px; letter-spacing: 0.2em; color: rgba(255,255,255,0.5); }
 .mx-price-amount { margin-top: 8px; display: flex; align-items: baseline; gap: 8px; }
@@ -268,3 +305,32 @@ h2 { font-size: 14px; margin: 0 0 12px; color: var(--text); letter-spacing: 0.05
 
 .mx-footer { position: relative; z-index: 10; margin-top: 120px; border-top: 1px solid rgba(255,255,255,0.1); padding: 32px 24px; text-align: center; font-size: 12px; color: rgba(255,255,255,0.4); }
 
+/* Fade-in + slide-up saat elemen masuk viewport (dipakai lewat RevealBox di page.tsx) */
+.mx-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.mx-reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* Hormati preferensi pengguna yang mematikan animasi */
+@media (prefers-reduced-motion: reduce) {
+  .mx-glow-green,
+  .mx-h1 .l1,
+  .mx-dot,
+  .mx-logo .cursor,
+  .mx-float-card,
+  .mx-price-card.popular,
+  .mx-type-cursor {
+    animation: none !important;
+  }
+  .mx-reveal, .mx-reveal-visible, .mx-l2-hidden, .mx-l2-visible {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
