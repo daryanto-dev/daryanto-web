@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 import MatrixRain from "./MatrixRain";
@@ -13,9 +13,71 @@ const MODULES = [
   { id: "M06", icon: "◎", title: "SNIPER Mode (VIP)", desc: "Konfirmasi tambahan di TF lebih tinggi (H4) khusus setup presisi tinggi dengan RR lebih lebar - eksklusif tier VIP.", meta: "High-precision tier" },
 ];
 
+// ── Efek ketik untuk headline hero ──
+function TypedLine({ text, speed = 55, onDone }: { text: string; speed?: number; onDone?: () => void }) {
+  const [shown, setShown] = useState("");
+  useEffect(() => {
+    let i = 0;
+    const id = setInterval(() => {
+      i++;
+      setShown(text.slice(0, i));
+      if (i >= text.length) {
+        clearInterval(id);
+        onDone && onDone();
+      }
+    }, speed);
+    return () => clearInterval(id);
+  }, [text, speed]);
+  return <>{shown}</>;
+}
+
+// ── Wrapper fade-in + slide-up saat elemen masuk viewport ──
+function RevealBox({
+  children,
+  delay = 0,
+  className = "",
+  style = {},
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.15 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={`${className} ${visible ? "mx-reveal-visible" : "mx-reveal"}`}
+      style={{ transitionDelay: `${delay}ms`, ...style }}
+    >
+      {children}
+    </div>
+  );
+}
+
 export default function HomePage() {
   const router = useRouter();
   const [checking, setChecking] = useState(true);
+  const [line2Visible, setLine2Visible] = useState(false);
+
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
       if (data.session) router.replace("/dashboard");
@@ -45,7 +107,15 @@ export default function HomePage() {
 
       <section className="mx-hero">
         <div className="mx-badge"><span><span className="mx-dot" style={{boxShadow:"0 0 8px #00FF88"}} /><span style={{color:"#00FF88"}}>SIGNAL_ENGINE</span></span><span style={{width:1,height:16,background:"rgba(0,255,136,0.3)"}} /><span style={{color:"rgba(255,255,255,0.7)"}}>MULTI-TIER LICENSE SYSTEM</span></div>
-        <h1 className="mx-h1"><span className="l1">AUTO SIGNAL</span><span className="l2">BUKAN AUTO TEBAK</span></h1>
+
+        <h1 className="mx-h1">
+          <span className="l1">
+            <TypedLine text="AUTO SIGNAL" onDone={() => setLine2Visible(true)} />
+            <span className="mx-type-cursor" />
+          </span>
+          <span className={`l2 ${line2Visible ? "mx-l2-visible" : "mx-l2-hidden"}`}>BUKAN AUTO TEBAK</span>
+        </h1>
+
         <div className="mx-terminal-line"><span className="prompt">&gt;</span> Sinyal Trading MT5 - manual entry, EA tidak buka order sendiri // lisensi online per-akun // tier Demo/Premium/VIP // performa tercatat otomatis & transparan</div>
         <div className="mx-cta-row">
           <a href="#pricing" className="mx-btn-solid mx-glow-green" style={{height:48,padding:"0 28px",fontSize:14}}>▶ Lihat Paket Bot</a>
@@ -59,70 +129,93 @@ export default function HomePage() {
       </section>
 
       <section className="mx-section">
-        <div className="mx-section-head"><h2 className="mx-section-title">MODULES<span className="accent">.SYS</span> <span style={{fontSize:14,color:"rgba(255,255,255,0.2)"}}>6_ACTIVE</span></h2><span style={{fontSize:11,color:"rgba(0,255,136,0.5)"}}>STATUS: ARMED</span></div>
-        <div className="mx-modules-grid">{MODULES.map((mod) => (<div className="mx-module-card" key={mod.id}><div className="top"><span className="icon">{mod.icon}</span><span className="idtag">{mod.id}</span></div><h3>{mod.title}</h3><p>{mod.desc}</p><div style={{marginTop:16,fontSize:10,color:"rgba(0,255,255,0.6)",borderTop:"1px solid rgba(255,255,255,0.1)",paddingTop:12}}>{mod.meta}</div></div>))}</div>
+        <RevealBox>
+          <div className="mx-section-head"><h2 className="mx-section-title">MODULES<span className="accent">.SYS</span> <span style={{fontSize:14,color:"rgba(255,255,255,0.2)"}}>6_ACTIVE</span></h2><span style={{fontSize:11,color:"rgba(0,255,136,0.5)"}}>STATUS: ARMED</span></div>
+        </RevealBox>
+        <div className="mx-modules-grid">
+          {MODULES.map((mod, idx) => (
+            <RevealBox key={mod.id} delay={idx * 80}>
+              <div className="mx-module-card">
+                <div className="top"><span className="icon">{mod.icon}</span><span className="idtag">{mod.id}</span></div>
+                <h3>{mod.title}</h3>
+                <p>{mod.desc}</p>
+                <div style={{marginTop:16,fontSize:10,color:"rgba(0,255,255,0.6)",borderTop:"1px solid rgba(255,255,255,0.1)",paddingTop:12}}>{mod.meta}</div>
+              </div>
+            </RevealBox>
+          ))}
+        </div>
       </section>
 
       <section className="mx-section" id="pricing">
-        <div style={{textAlign:"center",marginBottom:40}}>
-          <div style={{fontSize:11,letterSpacing:"0.3em",color:"rgba(0,255,136,0.7)"}}>PRICING_TABLE // CHOOSE_YOUR_TIER</div>
-          <h2 style={{marginTop:12,fontWeight:900,fontSize:"clamp(28px,5vw,48px)"}}>DEPLOY BOT <span style={{color:"#00FF88"}}>SEKARANG</span></h2>
-          <p style={{marginTop:12,fontSize:12,color:"rgba(255,255,255,0.4)"}}>Lisensi online resmi • 1 license = 1 akun MT5 • validasi real-time • Garansi setting ulang</p>
-        </div>
+        <RevealBox>
+          <div style={{textAlign:"center",marginBottom:40}}>
+            <div style={{fontSize:11,letterSpacing:"0.3em",color:"rgba(0,255,136,0.7)"}}>PRICING_TABLE // CHOOSE_YOUR_TIER</div>
+            <h2 style={{marginTop:12,fontWeight:900,fontSize:"clamp(28px,5vw,48px)"}}>DEPLOY BOT <span style={{color:"#00FF88"}}>SEKARANG</span></h2>
+            <p style={{marginTop:12,fontSize:12,color:"rgba(255,255,255,0.4)"}}>Lisensi online resmi • 1 license = 1 akun MT5 • validasi real-time • Garansi setting ulang</p>
+          </div>
+        </RevealBox>
         <div className="mx-pricing-grid">
-          <div className="mx-price-card">
-            <div className="mx-price-tier">DEMO</div>
-            <div className="mx-price-amount"><span className="num">Gratis</span><span style={{fontSize:12,color:"rgba(255,255,255,0.4)"}}>/ 30 hari</span></div>
-            <div className="mx-price-features">
-              <div className="feat"><span className="chk">✓</span> Simbol XAUUSD saja</div>
-              <div className="feat"><span className="chk">✓</span> Sinyal sampai tier STRONG</div>
-              <div className="feat"><span className="chk">✓</span> Semua indikator visual aktif</div>
-              <div className="feat" style={{color:"rgba(255,255,255,0.35)"}}>✕ Alert Telegram</div>
-              <div className="feat" style={{color:"rgba(255,255,255,0.35)"}}>✕ Manajemen posisi otomatis</div>
+          <RevealBox delay={0}>
+            <div className="mx-price-card">
+              <div className="mx-price-tier">DEMO</div>
+              <div className="mx-price-amount"><span className="num">Gratis</span><span style={{fontSize:12,color:"rgba(255,255,255,0.4)"}}>/ 30 hari</span></div>
+              <div className="mx-price-features">
+                <div className="feat"><span className="chk">✓</span> Simbol XAUUSD saja</div>
+                <div className="feat"><span className="chk">✓</span> Sinyal sampai tier STRONG</div>
+                <div className="feat"><span className="chk">✓</span> Semua indikator visual aktif</div>
+                <div className="feat" style={{color:"rgba(255,255,255,0.35)"}}>✕ Alert Telegram</div>
+                <div className="feat" style={{color:"rgba(255,255,255,0.35)"}}>✕ Manajemen posisi otomatis</div>
+              </div>
+              <a href="/login?intent=demo" className="mx-btn-outline" style={{marginTop:24,justifyContent:"center"}}>Coba Demo</a>
             </div>
-            <a href="/login?intent=demo" className="mx-btn-outline" style={{marginTop:24,justifyContent:"center"}}>Coba Demo</a>
-          </div>
+          </RevealBox>
 
-          <div className="mx-price-card popular">
-            <div className="mx-price-badge">PALING DIPILIH • HEMAT 50%</div>
-            <div className="mx-price-tier">PREMIUM</div>
-            <div className="mx-price-amount">
-              <div style={{display:"flex",alignItems:"baseline",gap:8}}><span className="num" style={{color:"#00FF88"}}>Rp 499.000</span><span style={{fontSize:12,color:"rgba(255,255,255,0.5)",textDecoration:"line-through"}}>Rp 999.000</span></div>
-              <span style={{fontSize:12,color:"rgba(255,255,255,0.4)"}}>/ 1 Tahun • semua simbol</span>
+          <RevealBox delay={120}>
+            <div className="mx-price-card popular">
+              <div className="mx-price-badge">PALING DIPILIH • HEMAT 50%</div>
+              <div className="mx-price-tier">PREMIUM</div>
+              <div className="mx-price-amount">
+                <div style={{display:"flex",alignItems:"baseline",gap:8}}><span className="num" style={{color:"#00FF88"}}>Rp 499.000</span><span style={{fontSize:12,color:"rgba(255,255,255,0.5)",textDecoration:"line-through"}}>Rp 999.000</span></div>
+                <span style={{fontSize:12,color:"rgba(255,255,255,0.4)"}}>/ 1 Tahun • semua simbol</span>
+              </div>
+              <div className="mx-price-features">
+                <div className="feat"><span className="chk">✓</span> Semua simbol, tanpa lock</div>
+                <div className="feat"><span className="chk">✓</span> Sinyal sampai tier A+</div>
+                <div className="feat"><span className="chk">✓</span> Alert Telegram real-time</div>
+                <div className="feat"><span className="chk">✓</span> Manajemen posisi (BE/Trailing/Partial)</div>
+                <div className="feat" style={{color:"rgba(255,255,255,0.35)"}}>✕ SNIPER Mode</div>
+              </div>
+              <a href="/login?intent=premium" className="mx-btn-solid mx-glow-green" style={{marginTop:24,justifyContent:"center"}}>Ambil Premium</a>
             </div>
-            <div className="mx-price-features">
-              <div className="feat"><span className="chk">✓</span> Semua simbol, tanpa lock</div>
-              <div className="feat"><span className="chk">✓</span> Sinyal sampai tier A+</div>
-              <div className="feat"><span className="chk">✓</span> Alert Telegram real-time</div>
-              <div className="feat"><span className="chk">✓</span> Manajemen posisi (BE/Trailing/Partial)</div>
-              <div className="feat" style={{color:"rgba(255,255,255,0.35)"}}>✕ SNIPER Mode</div>
-            </div>
-            <a href="/login?intent=premium" className="mx-btn-solid mx-glow-green" style={{marginTop:24,justifyContent:"center"}}>Ambil Premium</a>
-          </div>
+          </RevealBox>
 
-          <div className="mx-price-card">
-            <div className="mx-price-tier">VIP • LIFETIME</div>
-            <div className="mx-price-amount">
-              <div style={{display:"flex",alignItems:"baseline",gap:8}}><span className="num">Rp 1.499.000</span><span style={{fontSize:12,color:"rgba(255,255,255,0.5)",textDecoration:"line-through"}}>Rp 2.999.000</span></div>
-              <span style={{fontSize:12,color:"rgba(255,255,255,0.4)"}}>/ sekali bayar • update selamanya</span>
+          <RevealBox delay={240}>
+            <div className="mx-price-card">
+              <div className="mx-price-tier">VIP • LIFETIME</div>
+              <div className="mx-price-amount">
+                <div style={{display:"flex",alignItems:"baseline",gap:8}}><span className="num">Rp 1.499.000</span><span style={{fontSize:12,color:"rgba(255,255,255,0.5)",textDecoration:"line-through"}}>Rp 2.999.000</span></div>
+                <span style={{fontSize:12,color:"rgba(255,255,255,0.4)"}}>/ sekali bayar • update selamanya</span>
+              </div>
+              <div className="mx-price-features">
+                <div className="feat"><span className="chk">✓</span> Semua fitur Premium</div>
+                <div className="feat"><span className="chk">✓</span> Sinyal tier SNIPER (paling ketat)</div>
+                <div className="feat"><span className="chk">✓</span> Konfirmasi H4 khusus swing/long</div>
+                <div className="feat"><span className="chk">✓</span> Prioritas alert</div>
+                <div className="feat"><span className="chk">✓</span> Lisensi seumur hidup</div>
+              </div>
+              <a href="/login?intent=vip" className="mx-btn-outline" style={{marginTop:24,justifyContent:"center"}}>Ambil VIP</a>
             </div>
-            <div className="mx-price-features">
-              <div className="feat"><span className="chk">✓</span> Semua fitur Premium</div>
-              <div className="feat"><span className="chk">✓</span> Sinyal tier SNIPER (paling ketat)</div>
-              <div className="feat"><span className="chk">✓</span> Konfirmasi H4 khusus swing/long</div>
-              <div className="feat"><span className="chk">✓</span> Prioritas alert</div>
-              <div className="feat"><span className="chk">✓</span> Lisensi seumur hidup</div>
-            </div>
-            <a href="/login?intent=vip" className="mx-btn-outline" style={{marginTop:24,justifyContent:"center"}}>Ambil VIP</a>
-          </div>
+          </RevealBox>
         </div>
       </section>
 
       <section className="mx-section">
-        <div style={{border:"1px solid rgba(0,255,136,0.2)",background:"#000",padding:24,textAlign:"center"}}>
-          <div style={{fontSize:11,letterSpacing:"0.2em",color:"rgba(0,255,136,0.6)"}}>[PERFORMANCE_MATRIX]</div>
-          <p style={{marginTop:12,fontSize:13,color:"rgba(255,255,255,0.6)",maxWidth:560,marginLeft:"auto",marginRight:"auto"}}>Setiap sinyal tercatat otomatis (win/loss per tier) lewat sistem tracking real-time. Statistik performa akan tampil transparan di dashboard begitu data cukup terkumpul - bukan klaim yang dikarang di landing page.</p>
-        </div>
+        <RevealBox>
+          <div style={{border:"1px solid rgba(0,255,136,0.2)",background:"#000",padding:24,textAlign:"center"}}>
+            <div style={{fontSize:11,letterSpacing:"0.2em",color:"rgba(0,255,136,0.6)"}}>[PERFORMANCE_MATRIX]</div>
+            <p style={{marginTop:12,fontSize:13,color:"rgba(255,255,255,0.6)",maxWidth:560,marginLeft:"auto",marginRight:"auto"}}>Setiap sinyal tercatat otomatis (win/loss per tier) lewat sistem tracking real-time. Statistik performa akan tampil transparan di dashboard begitu data cukup terkumpul - bukan klaim yang dikarang di landing page.</p>
+          </div>
+        </RevealBox>
       </section>
       <footer className="mx-footer">DARYANTOBOT_PRO — Sinyal manual entry, EA tidak membuka order otomatis. Bukan nasihat finansial. Risiko trading ditanggung pengguna.</footer>
     </div>
