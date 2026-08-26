@@ -1,196 +1,118 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { supabase, EDGE_URL } from "@/lib/supabaseClient";
-
-const EA_BUCKET = "ea-builds";
-const EA_FILENAME = "DARYANTO_BOT_LICENSED.ex5";
-
-type LicenseRow = {
-  id: string;
-  license_key: string;
-  status: string;
-  account_login: number | null;
-  broker_name: string | null;
-  expires_at: string | null;
-  issued_at: string;
-  products: { name: string; tier: string } | null;
-};
+import { supabase } from "@/lib/supabaseClient";
+import MatrixRain from "../MatrixRain";
 
 export default function DashboardPage() {
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
-  const [userEmail, setUserEmail] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [licenses, setLicenses] = useState<LicenseRow[]>([]);
-  const [claimKey, setClaimKey] = useState("");
-  const [claimMsg, setClaimMsg] = useState<{ ok: boolean; text: string } | null>(null);
-  const [claiming, setClaiming] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const [licenses, setLicenses] = useState<any[]>([]);
+  const [inputKey, setInputKey] = useState("");
+  const [eaUrl, setEaUrl] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  async function loadData() {
-    const { data: sessionData } = await supabase.auth.getSession();
-    const session = sessionData.session;
-    if (!session) {
-      router.replace("/login");
-      return;
-    }
-    setUserEmail(session.user.email ?? "");
-
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("role")
-      .eq("id", session.user.id)
-      .maybeSingle();
-    setIsAdmin(profile?.role === "admin");
-
-    const { data: lic } = await supabase
-      .from("licenses")
-      .select("id, license_key, status, account_login, broker_name, expires_at, issued_at, products(name, tier)")
-      .eq("owner_id", session.user.id)
-      .order("issued_at", { ascending: false });
-
-    setLicenses((lic as any) ?? []);
-    setLoading(false);
-  }
+  const ADMIN_EMAILS = ["daryanto.id@gmail.com", "daryantoid@gmail.com"];
 
   useEffect(() => {
-    loadData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    (async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) { router.push("/login"); return; }
+      setUser(user);
+      // EA url
+      const { data } = supabase.storage.from("ea-builds").getPublicUrl("DARYANTO_BOT.ex5");
+      setEaUrl(data.publicUrl);
+      loadLicenses(user.id);
+    })();
   }, []);
 
-  async function handleClaim(e: React.FormEvent) {
-    e.preventDefault();
-    setClaiming(true);
-    setClaimMsg(null);
+  const loadLicenses = async (uid?: string) => {
+    const id = uid || user?.id;
+    if (!id) return;
+    const { data, error } = await supabase.from("licenses").select("*").eq("user_id", id).order("created_at", { ascending: false });
+    if (!error && data) setLicenses(data);
+  };
 
-    const { data: sessionData } = await supabase.auth.getSession();
-    const token = sessionData.session?.access_token;
+  const handleKlaim = async () => {
+    if (!inputKey.trim()) return;
+    setLoading(true);
+    const key = inputKey.trim().toUpperCase();
 
-    try {
-      const res = await fetch(`${EDGE_URL}/claim-license`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ license_key: claimKey.trim() }),
-      });
-      const json = await res.json();
-      setClaimMsg({ ok: json.ok, text: json.message || (json.ok ? "Berhasil" : "Gagal") });
-      if (json.ok) {
-        setClaimKey("");
-        loadData();
-      }
-    } catch {
-      setClaimMsg({ ok: false, text: "Gagal menghubungi server. Coba lagi." });
-    }
-    setClaiming(false);
-  }
+    const { data: lic, error: e1 } = await supabase.from("licenses").select("*").eq("license_key", key).maybeSingle();
+    if (e1) { setLoading(false); alert("Error cek key: " + e1.message); return; }
+    if (!lic) { setLoading(false); alert("Key tidak ditemukan: " + key); return; }
+    if (lic.user_id) { setLoading(false); alert("Key sudah dipakai oleh: " + (lic.email_buyer||"user lain")); return; }
 
-  async function handleDownload() {
-    const { data: sessionData } = await supabase.auth.getSession();
-    const uid = sessionData.session?.user.id;
-    if (uid) {
-      await supabase.from("downloads").insert({ user_id: uid });
-    }
-    const { data } = supabase.storage.from(EA_BUCKET).getPublicUrl(EA_FILENAME);
-    window.open(data.publicUrl, "_blank");
-  }
+    const { error: e2 } = await supabase.from("licenses").update({
+      user_id: user.id,
+      email_buyer: user.email,
+      claimed_at: new Date().toISOString()
+    }).eq("license_key", key);
 
-  async function handleLogout() {
-    await supabase.auth.signOut();
-    router.replace("/login");
-  }
+    setLoading(false);
+    if (e2) { alert("Gagal klaim - RLS belum fix: " + e2.message + "\n\nRUN SQL yang aku kasih di admin untuk UPDATE policy"); return; }
 
-  function statusBadge(status: string, expiresAt: string | null) {
-    const expired = expiresAt && new Date(expiresAt) < new Date();
-    const cls = expired ? "expired" : status;
-    const label = expired ? "expired" : status;
-    return <span className={`badge ${cls}`}>{label}</span>;
-  }
+    alert("Berhasil klaim: " + key + " [" + lic.tier + "]");
+    setInputKey("");
+    loadLicenses();
+  };
 
-  if (loading) return <div className="container">Memuat...</div>;
+  const handleLogout = async () => { await supabase.auth.signOut(); router.push("/"); };
+
+  if (!user) return null;
 
   return (
-    <>
-      <div className="topbar">
-        <div className="brand">DARYANTO BOT</div>
-        <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-          <span className="muted">{userEmail}</span>
-          {isAdmin && (
-            <a className="btn secondary" href="/dashboard/admin">
-              Admin Panel
-            </a>
-          )}
-          <button className="btn secondary" onClick={handleLogout}>
-            Logout
-          </button>
+    <div className="mx-root">
+      <MatrixRain />
+      <div className="mx-grid-bg" />
+      <header className="mx-header"><div className="mx-header-inner">
+        <div className="mx-logo"><span>DARYANTOBOT</span><span style={{color:"#00FF88"}}>_PRO</span><span className="cursor"/></div>
+        <div style={{display:"flex", gap:8, alignItems:"center"}}>
+          <span style={{fontFamily:"JetBrains Mono", fontSize:11, color:"rgba(255,255,255,0.6)"}}>{user.email}</span>
+          {ADMIN_EMAILS.includes(user.email) && <a href="/dashboard/admin" className="mx-btn-outline" style={{borderColor:"#00FF88", color:"#00FF88"}}>$ Admin</a>}
+          <button onClick={handleLogout} className="mx-btn-outline">Logout</button>
         </div>
-      </div>
+      </div></header>
 
-      <div className="container">
-        <div className="card">
-          <h2>Download EA</h2>
-          <p className="muted">
-            Satu file EA berlaku untuk semua tier (Demo/Premium/VIP) - tier ditentukan otomatis dari license
-            key yang kamu masukkan di Inputs EA saat dipasang di chart.
-          </p>
-          <button className="btn" onClick={handleDownload}>
-            Download DARYANTO_BOT.ex5
-          </button>
+      <div style={{maxWidth:900, margin:"0 auto", padding:"32px 24px", fontFamily:"JetBrains Mono"}}>
+        {/* DOWNLOAD */}
+        <div style={{border:"1px solid rgba(255,255,255,0.12)", background:"rgba(10,10,10,0.9)", padding:20, marginBottom:16}}>
+          <div style={{fontWeight:900, fontSize:13, marginBottom:6}}>DOWNLOAD_EA.EX5</div>
+          <div style={{fontSize:11, color:"rgba(255,255,255,0.5)", marginBottom:16}}>Satu file untuk semua tier. Tier auto dari license key.</div>
+          <a href={eaUrl} target="_blank" className="mx-btn-solid mx-glow-green" style={{display:"inline-block", padding:"10px 18px", fontSize:12, textDecoration:"none"}}>▼ Download EA</a>
+          <div style={{fontSize:9, color:"rgba(255,255,255,0.3)", marginTop:10, wordBreak:"break-all"}}>{eaUrl}</div>
         </div>
 
-        <div className="card">
-          <h2>Klaim License Baru</h2>
-          <p className="muted">Masukkan license key yang diberikan admin, biar muncul di daftar bawah.</p>
-          {claimMsg && <div className={`msg ${claimMsg.ok ? "success" : "error"}`}>{claimMsg.text}</div>}
-          <form onSubmit={handleClaim} className="row">
-            <div>
-              <input
-                placeholder="DARY-XXXX-XXXX-XXXX"
-                value={claimKey}
-                onChange={(e) => setClaimKey(e.target.value)}
-                required
-              />
-            </div>
-            <div style={{ flex: "0 0 auto" }}>
-              <button className="btn" type="submit" disabled={claiming}>
-                {claiming ? "Memproses..." : "Klaim"}
-              </button>
-            </div>
-          </form>
+        {/* KLAIM */}
+        <div style={{border:"1px solid rgba(0,255,136,0.25)", background:"rgba(10,10,10,0.95)", padding:20, marginBottom:16}}>
+          <div style={{fontWeight:900, fontSize:13, marginBottom:6}}>KLAIM LICENSE BARU</div>
+          <div style={{fontSize:11, color:"rgba(255,255,255,0.5)", marginBottom:12}}>Masukkan key dari admin.</div>
+          <div style={{display:"flex", gap:8}}>
+            <input value={inputKey} onChange={e=>setInputKey(e.target.value.toUpperCase())} placeholder="DARY-XXXX-XXXX-XXXX" className="mx-input" style={{flex:1, height:42, textTransform:"uppercase"}} onKeyDown={e=> e.key==="Enter" && handleKlaim()}/>
+            <button onClick={handleKlaim} disabled={loading || !inputKey} className="mx-btn-solid" style={{height:42, padding:"0 22px"}}>{loading?"[... ]":"KLAIM"}</button>
+          </div>
         </div>
 
-        <div className="card">
-          <h2>License Saya</h2>
-          {licenses.length === 0 ? (
-            <p className="muted">Belum ada license yang diklaim.</p>
+        {/* LIST */}
+        <div style={{border:"1px solid rgba(255,255,255,0.12)", background:"rgba(10,10,10,0.9)", padding:20}}>
+          <div style={{fontWeight:900, fontSize:13, marginBottom:12}}>LICENSE SAYA [{licenses.length}]</div>
+          {licenses.length===0 ? (
+            <div style={{border:"1px dashed rgba(255,255,255,0.2)", padding:12, fontSize:11, color:"rgba(255,255,255,0.4)"}}>[ ] Belum ada license</div>
           ) : (
-            <table>
-              <thead>
-                <tr>
-                  <th>Key</th>
-                  <th>Tier</th>
-                  <th>Status</th>
-                  <th>MT5 Account</th>
-                  <th>Expired</th>
-                </tr>
-              </thead>
-              <tbody>
-                {licenses.map((l) => (
-                  <tr key={l.id}>
-                    <td className="mono">{l.license_key}</td>
-                    <td>
-                      <span className={`badge ${l.products?.tier ?? ""}`}>{l.products?.tier ?? "-"}</span>
-                    </td>
-                    <td>{statusBadge(l.status, l.expires_at)}</td>
-                    <td className="mono">{l.account_login ?? <span className="muted">belum dipakai</span>}</td>
-                    <td>{l.expires_at ? new Date(l.expires_at).toLocaleDateString("id-ID") : "Lifetime"}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <div style={{display:"flex", flexDirection:"column", gap:8}}>
+              {licenses.map((l:any,i:number)=>(
+                <div key={i} style={{border:"1px solid rgba(0,255,136,0.2)", padding:12, display:"flex", justifyContent:"space-between", alignItems:"center", background:"#0a0a0a"}}>
+                  <div>
+                    <div style={{color:"#00FF88", fontSize:13, fontWeight:700}}>{l.license_key}</div>
+                    <div style={{fontSize:10, color:"rgba(255,255,255,0.5)", marginTop:4}}>Tier: {l.tier} | Exp: {l.expired_at? new Date(l.expired_at).toLocaleDateString(): "Lifetime"} | Status: {l.status}</div>
+                  </div>
+                  <span style={{border:"1px solid rgba(0,255,136,0.3)", padding:"4px 8px", fontSize:10}}>{l.tier}</span>
+                </div>
+              ))}
+            </div>
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 }
