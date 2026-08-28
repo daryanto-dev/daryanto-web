@@ -185,7 +185,7 @@ export default function HomePage() {
                 <div className="feat"><span className="chk">✓</span> Manajemen posisi (BE/Trailing/Partial)</div>
                 <div className="feat" style={{color:"rgba(255,255,255,0.35)"}}>✕ SNIPER Mode</div>
               </div>
-              <a href="/login?intent=premium" className="mx-btn-solid mx-glow-green" style={{marginTop:24,justifyContent:"center"}}>Ambil Premium</a>
+              <a href="/checkout?tier=premium" className="mx-btn-solid mx-glow-green" style={{marginTop:24,justifyContent:"center"}}>Ambil Premium</a>
             </div>
           </RevealBox>
 
@@ -203,7 +203,7 @@ export default function HomePage() {
                 <div className="feat"><span className="chk">✓</span> Prioritas alert</div>
                 <div className="feat"><span className="chk">✓</span> Lisensi seumur hidup</div>
               </div>
-              <a href="/login?intent=vip" className="mx-btn-outline" style={{marginTop:24,justifyContent:"center"}}>Ambil VIP</a>
+              <a href="/checkout?tier=vip" className="mx-btn-outline" style={{marginTop:24,justifyContent:"center"}}>Ambil VIP</a>
             </div>
           </RevealBox>
         </div>
