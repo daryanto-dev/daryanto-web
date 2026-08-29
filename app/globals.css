@@ -218,6 +218,15 @@ h2 { font-size: 14px; margin: 0 0 12px; color: var(--text); letter-spacing: 0.05
   .mx-logo { font-size: 15px; }
   .mx-header-inner .mx-btn-outline,
   .mx-header-inner .mx-btn-solid { padding: 0 10px; font-size: 10.5px; gap: 4px; }
+  .mx-badge {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 6px;
+    padding: 8px 12px;
+    font-size: 9.5px;
+    letter-spacing: 0.06em;
+    max-width: 100%;
+  }
 }
 
 /* Tombol: transisi halus + micro-interaction saat hover */
