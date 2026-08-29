@@ -114,7 +114,9 @@ export default function HomePage() {
             <TypedLine text="AUTO SIGNAL" onDone={() => setLine2Visible(true)} />
             <span className="mx-type-cursor" />
           </span>
-          <span className={`l2 ${line2Visible ? "mx-l2-visible" : "mx-l2-hidden"}`}>BUKAN AUTO TEBAK</span>
+          <span className={`l2 ${line2Visible ? "mx-l2-visible" : "mx-l2-hidden"}`}>BUKAN AUTO TEBAK INI MESIN DETEKSI
+            ENTRY SEBELUM
+            MARKET BERGERAK.</span>
         </h1>
 
         <div className="mx-terminal-line"><span className="prompt">&gt;</span> Sinyal Trading MT5 - manual entry, EA tidak buka order sendiri // lisensi online per-akun // tier Demo/Premium/VIP // performa tercatat otomatis & transparan</div>
