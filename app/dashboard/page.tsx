@@ -11,6 +11,8 @@ export default function DashboardPage() {
   const [inputKey, setInputKey] = useState("");
   const [eaUrl, setEaUrl] = useState("");
   const [loading, setLoading] = useState(false);
+  const [overallStats, setOverallStats] = useState<any>(null);
+  const [tierStats, setTierStats] = useState<any[]>([]);
 
   const ADMIN_EMAILS = ["daryanto.id@gmail.com", "daryanto.store@gmail.com", "linasofah44@gmail.com"];
 
@@ -23,8 +25,16 @@ export default function DashboardPage() {
       const { data } = supabase.storage.from("ea-builds").getPublicUrl("DARYANTO_BOT.ex5");
       setEaUrl(data.publicUrl);
       loadLicenses(user.id);
+      loadStats();
     })();
   }, []);
+
+  const loadStats = async () => {
+    const { data: overall } = await supabase.from("signal_stats_overall").select("*").single();
+    if (overall) setOverallStats(overall);
+    const { data: byTier } = await supabase.from("signal_stats_by_tier").select("*").order("tier");
+    if (byTier) setTierStats(byTier);
+  };
 
   const loadLicenses = async (uid?: string) => {
     const id = uid || user?.id;
@@ -75,6 +85,68 @@ export default function DashboardPage() {
       </div></header>
 
       <div style={{maxWidth:900, margin:"0 auto", padding:"32px 24px", fontFamily:"JetBrains Mono"}}>
+        {/* PERFORMANCE STATS */}
+        <div style={{border:"1px solid rgba(0,255,136,0.25)", background:"rgba(10,10,10,0.95)", padding:20, marginBottom:16}}>
+          <div style={{fontWeight:900, fontSize:13, marginBottom:4}}>[PERFORMANCE_MATRIX]</div>
+          <div style={{fontSize:10.5, color:"rgba(255,255,255,0.55)", marginBottom:16, lineHeight:1.6}}>
+            Data asli dari log sinyal EA (real-time), bukan angka karangan. Win rate rendah tidak selalu berarti rugi —
+            tergantung rasio TP:SL tiap sinyal, bukan cuma menang/kalahnya.
+          </div>
+
+          {!overallStats ? (
+            <div style={{fontSize:11, color:"rgba(255,255,255,0.4)"}}>Memuat data...</div>
+          ) : overallStats.total_closed === 0 ? (
+            <div style={{fontSize:11, color:"rgba(255,255,255,0.4)"}}>Belum ada sinyal yang selesai (closed) untuk ditampilkan.</div>
+          ) : (
+            <>
+              <div style={{display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(120px,1fr))", gap:12, marginBottom:18}}>
+                <div>
+                  <div style={{fontSize:9.5, color:"rgba(255,255,255,0.5)"}}>TOTAL SIGNAL CLOSED</div>
+                  <div style={{fontSize:22, fontWeight:900, color:"#fff"}}>{overallStats.total_closed}</div>
+                </div>
+                <div>
+                  <div style={{fontSize:9.5, color:"rgba(255,255,255,0.5)"}}>WIN RATE</div>
+                  <div style={{fontSize:22, fontWeight:900, color:"#00FF88"}}>{overallStats.win_rate_pct}%</div>
+                </div>
+                <div>
+                  <div style={{fontSize:9.5, color:"rgba(255,255,255,0.5)"}}>WIN / LOSS</div>
+                  <div style={{fontSize:22, fontWeight:900, color:"#fff"}}>{overallStats.wins} / {overallStats.losses}</div>
+                </div>
+                <div>
+                  <div style={{fontSize:9.5, color:"rgba(255,255,255,0.5)"}}>SYMBOLS TRACKED</div>
+                  <div style={{fontSize:22, fontWeight:900, color:"#fff"}}>{overallStats.symbols_tracked}</div>
+                </div>
+              </div>
+
+              <div style={{fontSize:10, fontWeight:800, color:"rgba(255,255,255,0.6)", marginBottom:8, letterSpacing:"0.05em"}}>BREAKDOWN PER TIER SINYAL</div>
+              <div style={{overflowX:"auto"}}>
+                <table style={{width:"100%", borderCollapse:"collapse", fontSize:11}}>
+                  <thead>
+                    <tr style={{borderBottom:"1px solid rgba(255,255,255,0.15)"}}>
+                      <th style={{textAlign:"left", padding:"6px 8px", color:"rgba(255,255,255,0.5)"}}>TIER</th>
+                      <th style={{textAlign:"right", padding:"6px 8px", color:"rgba(255,255,255,0.5)"}}>CLOSED</th>
+                      <th style={{textAlign:"right", padding:"6px 8px", color:"rgba(255,255,255,0.5)"}}>WIN</th>
+                      <th style={{textAlign:"right", padding:"6px 8px", color:"rgba(255,255,255,0.5)"}}>LOSS</th>
+                      <th style={{textAlign:"right", padding:"6px 8px", color:"rgba(255,255,255,0.5)"}}>WIN RATE</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {tierStats.map((t) => (
+                      <tr key={t.tier} style={{borderBottom:"1px solid rgba(255,255,255,0.06)"}}>
+                        <td style={{padding:"6px 8px", fontWeight:800}}>{t.tier}</td>
+                        <td style={{padding:"6px 8px", textAlign:"right"}}>{t.total_closed}</td>
+                        <td style={{padding:"6px 8px", textAlign:"right", color:"#00FF88"}}>{t.wins}</td>
+                        <td style={{padding:"6px 8px", textAlign:"right", color:"#FF4757"}}>{t.losses}</td>
+                        <td style={{padding:"6px 8px", textAlign:"right", fontWeight:800}}>{t.win_rate_pct}%</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
+        </div>
+
         {/* DOWNLOAD */}
         <div style={{border:"1px solid rgba(255,255,255,0.12)", background:"rgba(10,10,10,0.9)", padding:20, marginBottom:16}}>
           <div style={{fontWeight:900, fontSize:13, marginBottom:6}}>DOWNLOAD_EA.EX5</div>
@@ -84,7 +156,11 @@ export default function DashboardPage() {
 
           <div style={{marginTop:14, border:"1px solid rgba(0,255,136,0.3)", background:"rgba(0,255,136,0.05)", padding:12}}>
             <div style={{display:"flex", alignItems:"center", gap:8, flexWrap:"wrap", marginBottom:8}}>
-              <span style={{color:"#00FF88", fontWeight:900, fontSize:11}}>✓ VIRUSTOTAL VERIFIED</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{flexShrink:0}}>
+                <path d="M12 2 L20 5.5 V11 C20 16 16.5 20 12 22 C7.5 20 4 16 4 11 V5.5 L12 2 Z" fill="rgba(0,255,136,0.12)" stroke="#00FF88" strokeWidth="1.4"/>
+                <path d="M8 12 L11 15 L16.5 8.5" stroke="#00FF88" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+              </svg>
+              <span style={{color:"#00FF88", fontWeight:900, fontSize:11}}>VIRUSTOTAL VERIFIED</span>
               <span style={{fontSize:10, color:"rgba(255,255,255,0.58)"}}>0 / 60 engine mendeteksi ancaman</span>
             </div>
             <div style={{fontSize:9.5, color:"rgba(255,255,255,0.5)", wordBreak:"break-all", marginBottom:6}}>
