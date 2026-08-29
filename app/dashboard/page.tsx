@@ -86,10 +86,23 @@ export default function DashboardPage() {
         {/* KLAIM */}
         <div style={{border:"1px solid rgba(0,255,136,0.25)", background:"rgba(10,10,10,0.95)", padding:20, marginBottom:16}}>
           <div style={{fontWeight:900, fontSize:13, marginBottom:6}}>KLAIM LICENSE BARU</div>
-          <div style={{fontSize:11, color:"rgba(255,255,255,0.5)", marginBottom:12}}>Masukkan key dari admin.</div>
-          <div style={{display:"flex", gap:8}}>
+          <div style={{fontSize:11, color:"rgba(255,255,255,0.5)", marginBottom:16}}>Masukkan key dari admin.</div>
+
+          <ol className="dash-steps">
+            <li><b>Tunggu key dari Admin.</b> Setelah pembayaran/deposit kamu diverifikasi, Admin kirim license key ke chat Telegram kamu (format <code>DARY-XXXX-XXXX-XXXX</code>).</li>
+            <li><b>Salin (copy)</b> key tersebut dari chat Telegram.</li>
+            <li><b>Tempel (paste)</b> di kolom input di bawah ini.</li>
+            <li>Klik tombol <b>KLAIM</b> — kalau berhasil, license langsung aktif dan muncul di daftar "LICENSE SAYA" di bawah.</li>
+          </ol>
+
+          <div style={{display:"flex", gap:8, marginTop:14}}>
             <input value={inputKey} onChange={e=>setInputKey(e.target.value.toUpperCase())} placeholder="DARY-XXXX-XXXX-XXXX" className="mx-input" style={{flex:1, height:42, textTransform:"uppercase"}} onKeyDown={e=> e.key==="Enter" && handleKlaim()}/>
             <button onClick={handleKlaim} disabled={loading || !inputKey} className="mx-btn-solid" style={{height:42, padding:"0 22px"}}>{loading?"[... ]":"KLAIM"}</button>
+          </div>
+
+          <div style={{marginTop:12, fontSize:10.5, color:"rgba(255,255,255,0.4)"}}>
+            Belum punya key atau belum dapat balasan Admin?{" "}
+            <a href="https://t.me/daryantobot" target="_blank" rel="noopener noreferrer" style={{color:"#00FF88"}}>Chat Admin di Telegram →</a>
           </div>
         </div>
 

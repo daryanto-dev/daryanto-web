@@ -703,3 +703,25 @@ h2 { font-size: 14px; margin: 0 0 12px; color: var(--text); letter-spacing: 0.05
   margin-right: auto;
   line-height: 1.6;
 }
+
+/* Step guide inside dashboard "klaim license" box */
+.dash-steps {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.dash-steps li {
+  font-size: 11.5px;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.6;
+}
+.dash-steps b { color: #fff; }
+.dash-steps code {
+  background: rgba(0,255,136,0.1);
+  color: #00FF88;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-family: "JetBrains Mono", monospace;
+}
