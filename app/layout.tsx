@@ -1,4 +1,5 @@
 import "./globals.css";
+import AdminChatButton from "./AdminChatButton";
 
 export const metadata = {
   title: "Daryanto Bot - Member Area",
@@ -8,7 +9,10 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="id">
-      <body>{children}</body>
+      <body>
+        {children}
+        <AdminChatButton />
+      </body>
     </html>
   );
 }
