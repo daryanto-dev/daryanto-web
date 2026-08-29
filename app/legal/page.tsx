@@ -1,7 +1,8 @@
 import MatrixRain from "../MatrixRain";
 
 export const metadata = {
-  title: "Disclaimer & Legalitas — DaryantoBot Pro",
+  title: "Disclaimer & Legalitas",
+  description: "Sifat layanan, risk warning, dan konteks regulasi DaryantoBot Pro di Indonesia.",
 };
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
