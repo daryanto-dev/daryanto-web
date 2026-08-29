@@ -476,3 +476,81 @@ h2 { font-size: 14px; margin: 0 0 12px; color: var(--text); letter-spacing: 0.05
   .mx-admin-chat { padding: 0; width: 54px; height: 54px; justify-content: center; gap: 0; }
   .mx-admin-chat-label { display: none; }
 }
+
+/* Trading candle hero animation */
+.tch-wrap { max-width: 760px; margin: 40px auto 0; position: relative; }
+
+.tch-bg-candle { animation: mx-float 4.5s ease-in-out infinite; }
+
+.tch-hero-grow {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: tch-grow 6s cubic-bezier(0.22, 0.9, 0.32, 1) infinite;
+}
+@keyframes tch-grow {
+  0%   { transform: scaleY(0.02); }
+  35%  { transform: scaleY(1); }
+  82%  { transform: scaleY(1); }
+  92%  { transform: scaleY(0.6); }
+  100% { transform: scaleY(0.02); }
+}
+
+.tch-glow-rect {
+  animation: tch-glow-pulse 2s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+@keyframes tch-glow-pulse {
+  0%, 100% { opacity: 0.45; }
+  50%      { opacity: 0.9; }
+}
+
+.tch-streak {
+  animation: tch-streak-move 6s cubic-bezier(0.22, 0.9, 0.32, 1) infinite;
+}
+@keyframes tch-streak-move {
+  0%, 33%  { transform: translateY(0); opacity: 0; }
+  36%      { opacity: 1; }
+  80%      { transform: translateY(-130px); opacity: 1; }
+  86%      { opacity: 0; transform: translateY(-130px); }
+  100%     { opacity: 0; transform: translateY(0); }
+}
+
+.tch-buy, .tch-sell {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+}
+.tch-buy {
+  animation: tch-buy-fade 6s ease-in-out infinite, tch-text-pulse 1.4s ease-in-out infinite;
+}
+@keyframes tch-buy-fade {
+  0%   { opacity: 0; }
+  8%   { opacity: 1; }
+  88%  { opacity: 1; }
+  96%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+.tch-sell {
+  animation: tch-sell-fade 6s ease-in-out infinite, tch-text-pulse 1.4s ease-in-out infinite;
+}
+@keyframes tch-sell-fade {
+  0%, 33% { opacity: 0; }
+  40%     { opacity: 1; }
+  85%     { opacity: 1; }
+  93%     { opacity: 0; }
+  100%    { opacity: 0; }
+}
+
+@keyframes tch-text-pulse {
+  0%, 100% { filter: drop-shadow(0 0 4px currentColor); }
+  50%      { filter: drop-shadow(0 0 10px currentColor); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tch-hero-grow, .tch-glow-rect, .tch-streak, .tch-buy, .tch-sell, .tch-bg-candle {
+    animation: none !important;
+  }
+  .tch-hero-grow { transform: scaleY(1) !important; }
+  .tch-buy, .tch-sell { opacity: 1 !important; }
+}
