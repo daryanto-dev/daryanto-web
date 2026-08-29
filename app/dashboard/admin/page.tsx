@@ -1,9 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 import MatrixRain from "../../MatrixRain";
 
+const ADMIN_EMAILS = ["daryanto.id@gmail.com", "daryanto.store@gmail.com", "linasofah44@gmail.com"];
+
 export default function AdminPage() {
+  const router = useRouter();
+  const [checking, setChecking] = useState(true);
   const [licenses, setLicenses] = useState<any[]>([]);
   const [activations, setActivations] = useState<any[]>([]);
   const [eaFiles, setEaFiles] = useState<any[]>([]);
@@ -22,7 +27,25 @@ export default function AdminPage() {
     if (files) setEaFiles(files);
   };
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => {
+    (async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user || !ADMIN_EMAILS.includes(user.email || "")) {
+        router.push("/dashboard");
+        return;
+      }
+      setChecking(false);
+      load();
+    })();
+  }, []);
+
+  if (checking) {
+    return (
+      <div style={{ minHeight: "100vh", background: "#000", color: "#00FF88", fontFamily: "JetBrains Mono", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13 }}>
+        [ VERIFYING ACCESS... ]
+      </div>
+    );
+  }
 
   const genKey = () => {
     const s = () => Math.random().toString(36).substring(2, 6).toUpperCase();

@@ -81,6 +81,19 @@ export default function DashboardPage() {
           <div style={{fontSize:11, color:"rgba(255,255,255,0.5)", marginBottom:16}}>Satu file untuk semua tier. Tier auto dari license key.</div>
           <a href={eaUrl} target="_blank" className="mx-btn-solid mx-glow-green" style={{display:"inline-block", padding:"10px 18px", fontSize:12, textDecoration:"none"}}>▼ Download EA</a>
           <div style={{fontSize:9, color:"rgba(255,255,255,0.55)", marginTop:10, wordBreak:"break-all"}}>{eaUrl}</div>
+
+          <div style={{marginTop:14, border:"1px solid rgba(0,255,136,0.3)", background:"rgba(0,255,136,0.05)", padding:12}}>
+            <div style={{display:"flex", alignItems:"center", gap:8, flexWrap:"wrap", marginBottom:8}}>
+              <span style={{color:"#00FF88", fontWeight:900, fontSize:11}}>✓ VIRUSTOTAL VERIFIED</span>
+              <span style={{fontSize:10, color:"rgba(255,255,255,0.58)"}}>0 / 60 engine mendeteksi ancaman</span>
+            </div>
+            <div style={{fontSize:9.5, color:"rgba(255,255,255,0.5)", wordBreak:"break-all", marginBottom:6}}>
+              SHA-256: 38811b7bcac1c703288cfb37f8fde2a40a26f5dcd28700d282509e28c6ee1287
+            </div>
+            <a href="https://www.virustotal.com/gui/file/38811b7bcac1c703288cfb37f8fde2a40a26f5dcd28700d282509e28c6ee1287/detection" target="_blank" rel="noopener noreferrer" style={{fontSize:10, color:"#00FF88"}}>
+              Lihat laporan lengkap di VirusTotal →
+            </a>
+          </div>
         </div>
 
         {/* KLAIM */}

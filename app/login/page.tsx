@@ -12,13 +12,21 @@ function LoginContent() {
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [agreed, setAgreed] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [info, setInfo] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setError(""); setInfo(""); setLoading(true);
+    setError(""); setInfo("");
+
+    if (mode === "signup" && !agreed) {
+      setError("Kamu harus menyetujui Disclaimer & Kebijakan Privasi dulu sebelum daftar.");
+      return;
+    }
+
+    setLoading(true);
 
     if (mode === "login") {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
@@ -60,7 +68,21 @@ function LoginContent() {
       <form onSubmit={handleSubmit}>
         <div className="mx-field"><label>EMAIL</label><input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="trader@exness.com" className="mx-input" /></div>
         <div className="mx-field"><label>PASSWORD</label><input type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="minimal 6 karakter" className="mx-input" /></div>
-        <button className="mx-btn-solid mx-glow-green" type="submit" disabled={loading} style={{ width: "100%", height: 44, justifyContent: "center", marginTop: 8 }}>
+
+        {mode === "signup" && (
+          <label style={{ display: "flex", alignItems: "flex-start", gap: 8, fontSize: 10.5, color: "rgba(255,255,255,0.6)", marginTop: 12, cursor: "pointer", lineHeight: 1.5 }}>
+            <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} style={{ marginTop: 2, accentColor: "#00FF88" }} />
+            <span>
+              Saya sudah membaca dan menyetujui{" "}
+              <a href="/legal" target="_blank" rel="noopener noreferrer" style={{ color: "#00FF88" }}>
+                Disclaimer, Legalitas &amp; Kebijakan Privasi
+              </a>{" "}
+              DaryantoBot Pro, termasuk risiko trading dan sifat layanan yang bersifat manual entry.
+            </span>
+          </label>
+        )}
+
+        <button className="mx-btn-solid mx-glow-green" type="submit" disabled={loading || (mode === "signup" && !agreed)} style={{ width: "100%", height: 44, justifyContent: "center", marginTop: 14 }}>
           {loading ? "[ PROCESSING... ]" : mode === "login" ? "▶ LOGIN" : "▶ BUAT AKUN"}
         </button>
       </form>
