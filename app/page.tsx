@@ -3,7 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 import MatrixRain from "./MatrixRain";
-import TradeChartHero from "./TradeChartHero";
+import RadarChartHero from "./RadarChartHero";
+import PremiumOfferSection from "./PremiumOfferSection";
 
 const MODULES = [
   { id: "M01", icon: "◆", title: "BOS / CHoCH Detection", desc: "Deteksi break of structure dan change of character otomatis buat baca arah trend terkini, bukan tebak-tebakan.", meta: "Structure engine" },
@@ -124,7 +125,7 @@ export default function HomePage() {
           <a href="#pricing" className="mx-btn-solid mx-glow-green" style={{height:48,padding:"0 28px",fontSize:14}}>▶ Lihat Paket Bot</a>
           <a href="/login?intent=demo" className="mx-btn-outline" style={{height:48,padding:"0 28px",fontSize:13}}>[ ] Coba Demo (XAUUSD, 30 Hari)</a>
         </div>
-        <TradeChartHero />
+        <RadarChartHero />
         <div className="mx-float-cards">
           <div className="mx-float-card accent"><div className="row"><span>XAUUSD • M15 • Struktur</span><span style={{color:"#00FF88"}}>BOS ✓</span></div><div className="big">Smart Confluence Score</div><div style={{marginTop:8,height:4,background:"rgba(255,255,255,0.1)"}}><div style={{height:"100%",width:"74%",background:"#00FF88"}} /></div></div>
           <div className="mx-float-card cyan" style={{animationDelay:"0.5s"}}><div className="row"><span>LICENSE • 1 KEY = 1 AKUN</span><span style={{color:"#00FFFF"}}>LOCKED</span></div><div className="big">Anti Share/Bajak</div><div style={{marginTop:8,height:4,background:"rgba(255,255,255,0.1)"}}><div style={{height:"100%",width:"100%",background:"#00FFFF"}} /></div></div>
@@ -212,6 +213,8 @@ export default function HomePage() {
           </RevealBox>
         </div>
       </section>
+
+      <PremiumOfferSection />
 
       <section className="mx-section">
         <RevealBox>
