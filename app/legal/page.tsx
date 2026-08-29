@@ -1,8 +1,8 @@
 import MatrixRain from "../MatrixRain";
 
 export const metadata = {
-  title: "Disclaimer & Legalitas",
-  description: "Sifat layanan, risk warning, dan konteks regulasi DaryantoBot Pro di Indonesia.",
+  title: "Disclaimer, Legalitas & Privasi",
+  description: "Sifat layanan, risk warning, konteks regulasi, dan kebijakan privasi DaryantoBot Pro di Indonesia.",
 };
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
@@ -32,7 +32,7 @@ export default function LegalPage() {
       <div style={{ maxWidth: 760, margin: "0 auto", padding: "40px 20px 80px", fontFamily: "JetBrains Mono" }}>
         <div style={{ textAlign: "center", marginBottom: 36 }}>
           <div style={{ fontSize: 11, letterSpacing: "0.3em", color: "rgba(0,255,136,0.7)" }}>LEGAL_NOTICE.TXT</div>
-          <h1 style={{ marginTop: 10, fontWeight: 900, fontSize: "clamp(22px,5vw,30px)" }}>Disclaimer &amp; Legalitas</h1>
+          <h1 style={{ marginTop: 10, fontWeight: 900, fontSize: "clamp(22px,5vw,30px)" }}>Disclaimer, Legalitas &amp; Privasi</h1>
           <div style={{ marginTop: 8, fontSize: 11, color: "rgba(255,255,255,0.58)" }}>Terakhir diperbarui: 29 Agustus 2026</div>
         </div>
 
@@ -105,6 +105,58 @@ export default function LegalPage() {
 
         <Section title="9. Perubahan Kebijakan">
           Dokumen ini dapat diperbarui sewaktu-waktu mengikuti perkembangan layanan maupun regulasi yang berlaku. Versi
+          terbaru selalu tersedia di halaman ini.
+        </Section>
+
+        <div style={{ height: 1, background: "rgba(0,255,136,0.2)", margin: "36px 0" }} />
+
+        <div style={{ textAlign: "center", marginBottom: 28 }}>
+          <div style={{ fontSize: 11, letterSpacing: "0.3em", color: "rgba(0,255,136,0.7)" }}>PRIVACY_POLICY.TXT</div>
+          <h2 style={{ marginTop: 8, fontWeight: 900, fontSize: "clamp(18px,4vw,24px)" }}>Kebijakan Privasi</h2>
+        </div>
+
+        <Section title="10. Data Pribadi yang Kami Kumpulkan">
+          Untuk menjalankan layanan, kami mengumpulkan beberapa data berikut:
+          <ul style={{ marginTop: 10, paddingLeft: 20, lineHeight: 1.9 }}>
+            <li><b>Email &amp; password</b> — untuk membuat akun &amp; login ke dashboard (diproses lewat Supabase Auth; password disimpan dalam bentuk ter-hash, bukan teks biasa).</li>
+            <li><b>Nama &amp; email</b> — yang kamu isi saat proses checkout pembelian lisensi.</li>
+            <li><b>ID akun broker</b> — kalau kamu mengikuti program klaim Premium gratis via partner broker.</li>
+            <li><b>Bukti pembayaran/deposit (screenshot)</b> — yang kamu kirim ke Admin lewat Telegram untuk verifikasi.</li>
+            <li><b>Data teknis dasar</b> — seperti alamat IP dan jenis perangkat/browser, yang otomatis tercatat oleh infrastruktur hosting (Vercel) sebagaimana lazimnya semua situs web.</li>
+          </ul>
+        </Section>
+
+        <Section title="11. Untuk Apa Data Ini Dipakai">
+          Data di atas kami gunakan untuk: autentikasi &amp; akses dashboard, verifikasi pembayaran dan aktivasi license
+          key, mencegah penyalahgunaan lisensi (kebijakan 1 key = 1 akun), serta komunikasi dukungan pelanggan. Kami{" "}
+          <b>tidak menjual atau menyewakan</b> data pribadi kamu ke pihak ketiga mana pun untuk tujuan pemasaran.
+        </Section>
+
+        <Section title="12. Berbagi Data dengan Pihak Ketiga">
+          Data kamu diproses oleh penyedia layanan berikut, sebatas yang diperlukan untuk menjalankan sistem:
+          <ul style={{ marginTop: 10, paddingLeft: 20, lineHeight: 1.9 }}>
+            <li><b>Supabase</b> — penyimpanan akun &amp; database.</li>
+            <li><b>Vercel</b> — hosting &amp; infrastruktur situs.</li>
+            <li><b>Telegram</b> — kanal komunikasi verifikasi pembayaran &amp; dukungan; percakapan di Telegram tunduk pada kebijakan privasi Telegram sendiri, di luar kendali kami.</li>
+          </ul>
+          Kami tidak membagikan data kamu ke pihak lain di luar daftar ini tanpa persetujuan, kecuali diwajibkan oleh hukum.
+        </Section>
+
+        <Section title="13. Hak Kamu atas Data Pribadi">
+          Sesuai UU No. 27 Tahun 2022 tentang Pelindungan Data Pribadi, kamu berhak untuk <b>mengakses, meminta koreksi,
+          atau meminta penghapusan</b> data pribadimu yang kami simpan. Untuk mengajukan permintaan ini, hubungi Admin
+          lewat Telegram di bawah. Data akun akan disimpan selama akun kamu aktif, dan akan dihapus dalam waktu wajar
+          setelah permintaan penghapusan diterima dan diverifikasi.
+        </Section>
+
+        <Section title="14. Keamanan Data">
+          Kami menggunakan layanan pihak ketiga (Supabase, Vercel) yang menerapkan praktik keamanan standar industri
+          (enkripsi in-transit, password ter-hash, dsb). Meski begitu, tidak ada sistem yang 100% bebas risiko — kami
+          tidak dapat menjamin keamanan absolut atas data yang kamu kirimkan.
+        </Section>
+
+        <Section title="15. Perubahan Kebijakan Privasi">
+          Kebijakan privasi ini dapat diperbarui sewaktu-waktu mengikuti perkembangan layanan atau regulasi. Versi
           terbaru selalu tersedia di halaman ini.
         </Section>
 

@@ -227,7 +227,7 @@ export default function HomePage() {
       <footer className="mx-footer">
         <div>DARYANTOBOT_PRO — Sinyal manual entry, EA tidak membuka order otomatis. Bukan nasihat finansial. Risiko trading ditanggung pengguna.</div>
         <div style={{ marginTop: 8 }}>
-          <a href="/legal" style={{ color: "rgba(0,255,136,0.7)", textDecoration: "underline" }}>Baca Disclaimer &amp; Legalitas Lengkap →</a>
+          <a href="/legal" style={{ color: "rgba(0,255,136,0.7)", textDecoration: "underline" }}>Baca Disclaimer, Legalitas &amp; Kebijakan Privasi →</a>
         </div>
       </footer>
     </main>
