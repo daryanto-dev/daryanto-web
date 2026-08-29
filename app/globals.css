@@ -9,7 +9,7 @@
   --red: #ff4d5e;
   --orange: #00FFFF;
   --text: #e8e8ec;
-  --text-dim: rgba(255,255,255,0.45);
+  --text-dim: rgba(255,255,255,0.6);
 }
 
 html, body {
@@ -99,7 +99,7 @@ th { color: var(--text-dim); font-weight: 600; font-size: 10px; letter-spacing: 
 .badge.expired { background: rgba(255,77,94,0.1); color: #ff4d5e; }
 .badge.revoked { background: rgba(255,77,94,0.1); color: #ff4d5e; }
 .badge.online { background: rgba(0,255,136,0.1); color: #00FF88; }
-.badge.offline { background: rgba(255,255,255,0.08); color: var(--text-dim); border-color: rgba(255,255,255,0.2); }
+.badge.offline { background: rgba(255,255,255,0.08); color: var(--text-dim); border-color: rgba(255,255,255,0.5); }
 
 .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap: 12px; margin-bottom: 20px; }
 .stat-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 0; padding: 16px; }
@@ -261,7 +261,7 @@ h2 { font-size: 14px; margin: 0 0 12px; color: var(--text); letter-spacing: 0.05
 .mx-float-card { border: 1px solid rgba(255,255,255,0.15); background: #000; padding: 12px; text-align: left; animation: mx-float 4s ease-in-out infinite; }
 .mx-float-card.accent { border-color: rgba(0,255,136,0.3); }
 .mx-float-card.cyan { border-color: rgba(0,255,255,0.3); }
-.mx-float-card .row { display: flex; justify-content: space-between; font-size: 10px; color: rgba(255,255,255,0.4); }
+.mx-float-card .row { display: flex; justify-content: space-between; font-size: 10px; color: rgba(255,255,255,0.58); }
 .mx-float-card .big { margin-top: 8px; font-size: 18px; font-weight: 700; color: #fff; }
 
 .mx-section { position: relative; z-index: 10; max-width: 1280px; margin: 96px auto 0; padding: 0 24px; }
@@ -274,7 +274,7 @@ h2 { font-size: 14px; margin: 0 0 12px; color: var(--text); letter-spacing: 0.05
 .mx-module-card:hover { border-color: rgba(0,255,136,0.4); background: #000; transform: translateY(-4px); }
 .mx-module-card .top { display: flex; justify-content: space-between; align-items: flex-start; }
 .mx-module-card .icon { color: #00FF88; font-size: 18px; font-weight: 700; }
-.mx-module-card .idtag { font-size: 10px; color: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.1); padding: 3px 8px; }
+.mx-module-card .idtag { font-size: 10px; color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.1); padding: 3px 8px; }
 .mx-module-card h3 { margin-top: 16px; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; }
 .mx-module-card p { margin-top: 12px; font-size: 13px; line-height: 1.6; color: rgba(255,255,255,0.6); }
 
@@ -303,7 +303,7 @@ h2 { font-size: 14px; margin: 0 0 12px; color: var(--text); letter-spacing: 0.05
 .mx-price-features .feat { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; color: rgba(255,255,255,0.75); }
 .mx-price-features .feat .chk { color: #00FF88; }
 
-.mx-footer { position: relative; z-index: 10; margin-top: 120px; border-top: 1px solid rgba(255,255,255,0.1); padding: 32px 24px; text-align: center; font-size: 12px; color: rgba(255,255,255,0.4); }
+.mx-footer { position: relative; z-index: 10; margin-top: 120px; border-top: 1px solid rgba(255,255,255,0.1); padding: 32px 24px; text-align: center; font-size: 12px; color: rgba(255,255,255,0.58); }
 
 /* Fade-in + slide-up saat elemen masuk viewport (dipakai lewat RevealBox di page.tsx) */
 .mx-reveal {
@@ -398,7 +398,7 @@ h2 { font-size: 14px; margin: 0 0 12px; color: var(--text); letter-spacing: 0.05
   outline: none;
   border-color: rgba(0,255,136,0.6);
 }
-.mx-input::placeholder { color: rgba(255,255,255,0.25); }
+.mx-input::placeholder { color: rgba(255,255,255,0.5); }
 
 .mx-msg {
   border: 1px solid rgba(0,255,136,0.3);
@@ -413,7 +413,7 @@ h2 { font-size: 14px; margin: 0 0 12px; color: var(--text); letter-spacing: 0.05
 .mx-terminal-hint {
   margin-top: 20px;
   font-size: 10px;
-  color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.55);
   text-align: center;
 }
 
@@ -697,7 +697,7 @@ h2 { font-size: 14px; margin: 0 0 12px; color: var(--text); letter-spacing: 0.05
 .promo-disclosure {
   margin-top: 20px;
   font-size: 10.5px;
-  color: rgba(255,255,255,0.35);
+  color: rgba(255,255,255,0.55);
   max-width: 640px;
   margin-left: auto;
   margin-right: auto;

@@ -77,7 +77,7 @@ function RadarPanelView({ p }: { p: RadarPanel }) {
       </svg>
 
       <div className="radar-card-foot">
-        <div style={{ fontSize: 10, color: "rgba(255,255,255,0.4)", letterSpacing: "0.1em" }}>CONFIDENCE</div>
+        <div style={{ fontSize: 10, color: "rgba(255,255,255,0.58)", letterSpacing: "0.1em" }}>CONFIDENCE</div>
         <div className="radar-confidence" style={{ color: p.color }}>{p.confidence.toFixed(1)}%</div>
         <div className="radar-status-pill" style={{ borderColor: p.color, color: p.color }}>{p.status}</div>
       </div>

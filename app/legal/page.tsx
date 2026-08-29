@@ -15,7 +15,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 export default function LegalPage() {
   return (
-    <div className="mx-root">
+    <main className="mx-root">
       <MatrixRain />
       <div className="mx-grid-bg" />
 
@@ -32,7 +32,7 @@ export default function LegalPage() {
         <div style={{ textAlign: "center", marginBottom: 36 }}>
           <div style={{ fontSize: 11, letterSpacing: "0.3em", color: "rgba(0,255,136,0.7)" }}>LEGAL_NOTICE.TXT</div>
           <h1 style={{ marginTop: 10, fontWeight: 900, fontSize: "clamp(22px,5vw,30px)" }}>Disclaimer &amp; Legalitas</h1>
-          <div style={{ marginTop: 8, fontSize: 11, color: "rgba(255,255,255,0.4)" }}>Terakhir diperbarui: 29 Agustus 2026</div>
+          <div style={{ marginTop: 8, fontSize: 11, color: "rgba(255,255,255,0.58)" }}>Terakhir diperbarui: 29 Agustus 2026</div>
         </div>
 
         <div style={{ border: "1px solid rgba(255,180,0,0.35)", background: "rgba(255,180,0,0.06)", padding: 16, marginBottom: 32 }}>
@@ -107,13 +107,13 @@ export default function LegalPage() {
           terbaru selalu tersedia di halaman ini.
         </Section>
 
-        <div style={{ marginTop: 40, textAlign: "center", fontSize: 10.5, color: "rgba(255,255,255,0.3)" }}>
+        <div style={{ marginTop: 40, textAlign: "center", fontSize: 10.5, color: "rgba(255,255,255,0.55)" }}>
           Ada pertanyaan soal disclaimer ini?{" "}
           <a href="https://t.me/daryantobot" target="_blank" rel="noopener noreferrer" style={{ color: "#00FF88" }}>
             Chat Admin di Telegram →
           </a>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

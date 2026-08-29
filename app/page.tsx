@@ -89,7 +89,7 @@ export default function HomePage() {
   if (checking) return null;
 
   return (
-    <div className="mx-root">
+    <main className="mx-root">
       <MatrixRain />
       <div className="mx-grid-bg" />
       <header className="mx-header">
@@ -135,7 +135,7 @@ export default function HomePage() {
 
       <section className="mx-section">
         <RevealBox>
-          <div className="mx-section-head"><h2 className="mx-section-title">MODULES<span className="accent">.SYS</span> <span style={{fontSize:14,color:"rgba(255,255,255,0.2)"}}>6_ACTIVE</span></h2><span style={{fontSize:11,color:"rgba(0,255,136,0.5)"}}>STATUS: ARMED</span></div>
+          <div className="mx-section-head"><h2 className="mx-section-title">MODULES<span className="accent">.SYS</span> <span style={{fontSize:14,color:"rgba(255,255,255,0.5)"}}>6_ACTIVE</span></h2><span style={{fontSize:11,color:"rgba(0,255,136,0.5)"}}>STATUS: ARMED</span></div>
         </RevealBox>
         <div className="mx-modules-grid">
           {MODULES.map((mod, idx) => (
@@ -156,20 +156,20 @@ export default function HomePage() {
           <div style={{textAlign:"center",marginBottom:40}}>
             <div style={{fontSize:11,letterSpacing:"0.3em",color:"rgba(0,255,136,0.7)"}}>PRICING_TABLE // CHOOSE_YOUR_TIER</div>
             <h2 style={{marginTop:12,fontWeight:900,fontSize:"clamp(28px,5vw,48px)"}}>DEPLOY BOT <span style={{color:"#00FF88"}}>SEKARANG</span></h2>
-            <p style={{marginTop:12,fontSize:12,color:"rgba(255,255,255,0.4)"}}>Lisensi online resmi • 1 license = 1 akun MT5 • validasi real-time • Garansi setting ulang</p>
+            <p style={{marginTop:12,fontSize:12,color:"rgba(255,255,255,0.58)"}}>Lisensi online resmi • 1 license = 1 akun MT5 • validasi real-time • Garansi setting ulang</p>
           </div>
         </RevealBox>
         <div className="mx-pricing-grid">
           <RevealBox delay={0}>
             <div className="mx-price-card">
               <div className="mx-price-tier">DEMO</div>
-              <div className="mx-price-amount"><span className="num">Gratis</span><span style={{fontSize:12,color:"rgba(255,255,255,0.4)"}}>/ 30 hari</span></div>
+              <div className="mx-price-amount"><span className="num">Gratis</span><span style={{fontSize:12,color:"rgba(255,255,255,0.58)"}}>/ 30 hari</span></div>
               <div className="mx-price-features">
                 <div className="feat"><span className="chk">✓</span> Simbol XAUUSD saja</div>
                 <div className="feat"><span className="chk">✓</span> Sinyal sampai tier STRONG</div>
                 <div className="feat"><span className="chk">✓</span> Semua indikator visual aktif</div>
-                <div className="feat" style={{color:"rgba(255,255,255,0.35)"}}>✕ Alert Telegram</div>
-                <div className="feat" style={{color:"rgba(255,255,255,0.35)"}}>✕ Manajemen posisi otomatis</div>
+                <div className="feat" style={{color:"rgba(255,255,255,0.55)"}}>✕ Alert Telegram</div>
+                <div className="feat" style={{color:"rgba(255,255,255,0.55)"}}>✕ Manajemen posisi otomatis</div>
               </div>
               <a href="/login?intent=demo" className="mx-btn-outline" style={{marginTop:24,justifyContent:"center"}}>Coba Demo</a>
             </div>
@@ -181,14 +181,14 @@ export default function HomePage() {
               <div className="mx-price-tier">PREMIUM</div>
               <div className="mx-price-amount">
                 <div style={{display:"flex",alignItems:"baseline",gap:8}}><span className="num" style={{color:"#00FF88"}}>Rp 499.000</span><span style={{fontSize:12,color:"rgba(255,255,255,0.5)",textDecoration:"line-through"}}>Rp 999.000</span></div>
-                <span style={{fontSize:12,color:"rgba(255,255,255,0.4)"}}>/ 1 Tahun • semua simbol</span>
+                <span style={{fontSize:12,color:"rgba(255,255,255,0.58)"}}>/ 1 Tahun • semua simbol</span>
               </div>
               <div className="mx-price-features">
                 <div className="feat"><span className="chk">✓</span> Semua simbol, tanpa lock</div>
                 <div className="feat"><span className="chk">✓</span> Sinyal sampai tier A+</div>
                 <div className="feat"><span className="chk">✓</span> Alert Telegram real-time</div>
                 <div className="feat"><span className="chk">✓</span> Manajemen posisi (BE/Trailing/Partial)</div>
-                <div className="feat" style={{color:"rgba(255,255,255,0.35)"}}>✕ SNIPER Mode</div>
+                <div className="feat" style={{color:"rgba(255,255,255,0.55)"}}>✕ SNIPER Mode</div>
               </div>
               <a href="/checkout?tier=premium" className="mx-btn-solid mx-glow-green" style={{marginTop:24,justifyContent:"center"}}>Ambil Premium</a>
             </div>
@@ -199,7 +199,7 @@ export default function HomePage() {
               <div className="mx-price-tier">VIP • LIFETIME</div>
               <div className="mx-price-amount">
                 <div style={{display:"flex",alignItems:"baseline",gap:8}}><span className="num">Rp 1.499.000</span><span style={{fontSize:12,color:"rgba(255,255,255,0.5)",textDecoration:"line-through"}}>Rp 2.999.000</span></div>
-                <span style={{fontSize:12,color:"rgba(255,255,255,0.4)"}}>/ sekali bayar • update selamanya</span>
+                <span style={{fontSize:12,color:"rgba(255,255,255,0.58)"}}>/ sekali bayar • update selamanya</span>
               </div>
               <div className="mx-price-features">
                 <div className="feat"><span className="chk">✓</span> Semua fitur Premium</div>
@@ -230,6 +230,6 @@ export default function HomePage() {
           <a href="/legal" style={{ color: "rgba(0,255,136,0.7)", textDecoration: "underline" }}>Baca Disclaimer &amp; Legalitas Lengkap →</a>
         </div>
       </footer>
-    </div>
+    </main>
   );
 }

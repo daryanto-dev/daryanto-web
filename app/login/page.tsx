@@ -73,7 +73,7 @@ function LoginContent() {
 
 export default function LoginPage() {
   return (
-    <div className="mx-root">
+    <main className="mx-root">
       <MatrixRain />
       <div className="mx-grid-bg" />
       <div className="mx-auth-wrap">
@@ -81,6 +81,6 @@ export default function LoginPage() {
           <LoginContent />
         </Suspense>
       </div>
-    </div>
+    </main>
   );
 }

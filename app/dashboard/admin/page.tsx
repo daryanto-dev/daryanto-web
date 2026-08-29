@@ -71,7 +71,7 @@ export default function AdminPage() {
   const vip = licenses.filter(l => { const t = l.tier?.toLowerCase()||""; return t.includes("vip") || t.includes("lifetime"); }).length;
 
   return (
-    <div className="mx-root">
+    <main className="mx-root">
       <MatrixRain />
       <div className="mx-grid-bg" />
       <header className="mx-header"><div className="mx-header-inner">
@@ -86,10 +86,10 @@ export default function AdminPage() {
       <div style={{maxWidth:1280, margin:"0 auto", padding:"20px 24px"}}>
         {/* STATS */}
         <div style={{display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))", gap:12, marginBottom:20}}>
-          <div style={{border:"1px solid rgba(0,255,136,0.2)", background:"#0a0a0a", padding:"14px", fontFamily:"JetBrains Mono"}}><div style={{fontSize:10,color:"rgba(255,255,255,0.4)"}}>Total License</div><div style={{fontSize:22,fontWeight:800,color:"#00FF88"}}>{licenses.length}</div></div>
-          <div style={{border:"1px solid rgba(0,255,136,0.2)", background:"#0a0a0a", padding:"14px", fontFamily:"JetBrains Mono"}}><div style={{fontSize:10,color:"rgba(255,255,255,0.4)"}}>Aktif (30 menit terakhir)</div><div style={{fontSize:22,fontWeight:800,color:"#00FFFF"}}>{activations.length}</div></div>
-          <div style={{border:"1px solid rgba(0,255,136,0.2)", background:"#0a0a0a", padding:"14px", fontFamily:"JetBrains Mono"}}><div style={{fontSize:10,color:"rgba(255,255,255,0.4)"}}>Total Download</div><div style={{fontSize:22,fontWeight:800,color:"#00FF88"}}>{eaFiles.length} file</div><div style={{fontSize:9,color:"rgba(255,255,255,0.3)",marginTop:4}}>{eaFiles[0]?.name||"-"}</div></div>
-          <div style={{border:"1px solid rgba(0,255,136,0.2)", background:"#0a0a0a", padding:"14px", fontFamily:"JetBrains Mono"}}><div style={{fontSize:10,color:"rgba(255,255,255,0.4)"}}>Demo / Premium / VIP</div><div style={{fontSize:22,fontWeight:800,color:"#00FF88"}}>{demo} / {prem} / {vip}</div></div>
+          <div style={{border:"1px solid rgba(0,255,136,0.2)", background:"#0a0a0a", padding:"14px", fontFamily:"JetBrains Mono"}}><div style={{fontSize:10,color:"rgba(255,255,255,0.58)"}}>Total License</div><div style={{fontSize:22,fontWeight:800,color:"#00FF88"}}>{licenses.length}</div></div>
+          <div style={{border:"1px solid rgba(0,255,136,0.2)", background:"#0a0a0a", padding:"14px", fontFamily:"JetBrains Mono"}}><div style={{fontSize:10,color:"rgba(255,255,255,0.58)"}}>Aktif (30 menit terakhir)</div><div style={{fontSize:22,fontWeight:800,color:"#00FFFF"}}>{activations.length}</div></div>
+          <div style={{border:"1px solid rgba(0,255,136,0.2)", background:"#0a0a0a", padding:"14px", fontFamily:"JetBrains Mono"}}><div style={{fontSize:10,color:"rgba(255,255,255,0.58)"}}>Total Download</div><div style={{fontSize:22,fontWeight:800,color:"#00FF88"}}>{eaFiles.length} file</div><div style={{fontSize:9,color:"rgba(255,255,255,0.55)",marginTop:4}}>{eaFiles[0]?.name||"-"}</div></div>
+          <div style={{border:"1px solid rgba(0,255,136,0.2)", background:"#0a0a0a", padding:"14px", fontFamily:"JetBrains Mono"}}><div style={{fontSize:10,color:"rgba(255,255,255,0.58)"}}>Demo / Premium / VIP</div><div style={{fontSize:22,fontWeight:800,color:"#00FF88"}}>{demo} / {prem} / {vip}</div></div>
         </div>
 
         {/* GENERATE */}
@@ -115,7 +115,7 @@ export default function AdminPage() {
         <div style={{border:"1px solid rgba(255,255,255,0.1)", background:"#0a0a0a", padding:16, overflowX:"auto"}}>
           <h3 style={{fontFamily:"JetBrains Mono", fontSize:13, marginBottom:12}}>Semua License ({licenses.length})</h3>
           <table style={{width:"100%", fontFamily:"JetBrains Mono", fontSize:11, borderCollapse:"collapse"}}>
-            <thead><tr style={{color:"rgba(255,255,255,0.4)", borderBottom:"1px solid rgba(255,255,255,0.1)"}}><th style={{textAlign:"left",padding:"10px 8px"}}>Key</th><th>Tier</th><th>Status</th><th>MT5 Account</th><th>Broker</th><th>Expired</th><th>Catatan</th><th>Action</th></tr></thead>
+            <thead><tr style={{color:"rgba(255,255,255,0.58)", borderBottom:"1px solid rgba(255,255,255,0.1)"}}><th style={{textAlign:"left",padding:"10px 8px"}}>Key</th><th>Tier</th><th>Status</th><th>MT5 Account</th><th>Broker</th><th>Expired</th><th>Catatan</th><th>Action</th></tr></thead>
             <tbody>{licenses.map((l:any,i:number)=>(
               <tr key={i} style={{borderBottom:"1px solid rgba(255,255,255,0.06)"}}><td style={{padding:"10px 8px", color:"#00FF88", cursor:"pointer"}} onClick={()=>copyKey(l.license_key)} title="Klik untuk copy">{l.license_key}</td><td><span style={{border:"1px solid rgba(0,255,136,0.3)", padding:"2px 6px", fontSize:10}}>{l.tier}</span></td><td><span className="mx-dot"/>{l.status}</td><td>{l.mt5_account||"-"}</td><td>{l.broker||"-"}</td><td>{l.expired_at? new Date(l.expired_at).toLocaleDateString(): "Lifetime"}</td><td style={{maxWidth:120, overflow:"hidden", textOverflow:"ellipsis"}}>{l.catatan||"-"}</td><td><button onClick={()=>copyKey(l.license_key)} style={{background:"transparent", border:"1px solid rgba(255,255,255,0.2)", color:"#fff", fontSize:9, padding:"2px 6px", cursor:"pointer"}}>COPY</button></td></tr>
             ))}</tbody>
@@ -126,13 +126,13 @@ export default function AdminPage() {
         <div style={{border:"1px solid rgba(255,255,255,0.1)", background:"#0a0a0a", padding:16, marginTop:16, overflowX:"auto"}}>
           <h3 style={{fontFamily:"JetBrains Mono", fontSize:13, marginBottom:12}}>Aktivasi Terbaru ({activations.length})</h3>
           <table style={{width:"100%", fontFamily:"JetBrains Mono", fontSize:11, borderCollapse:"collapse"}}>
-            <thead><tr style={{color:"rgba(255,255,255,0.4)", borderBottom:"1px solid rgba(255,255,255,0.1)"}}><th style={{textAlign:"left",padding:"8px"}}>License</th><th>MT5 Account</th><th>Broker</th><th>Symbol</th><th>Terakhir Online</th><th>Status</th></tr></thead>
+            <thead><tr style={{color:"rgba(255,255,255,0.58)", borderBottom:"1px solid rgba(255,255,255,0.1)"}}><th style={{textAlign:"left",padding:"8px"}}>License</th><th>MT5 Account</th><th>Broker</th><th>Symbol</th><th>Terakhir Online</th><th>Status</th></tr></thead>
             <tbody>{activations.map((a:any,i:number)=>(
               <tr key={i} style={{borderBottom:"1px solid rgba(255,255,255,0.06)"}}><td style={{padding:"8px"}}>{a.license_key?.slice(0,18)}...</td><td>{a.mt5_account}</td><td>{a.broker}</td><td>{a.symbol}</td><td>{a.last_online? new Date(a.last_online).toLocaleString(): "-"}</td><td style={{color:"#00FF88"}}>● online</td></tr>
             ))}</tbody>
           </table>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

@@ -55,7 +55,7 @@ function CheckoutContent() {
   };
 
   return (
-    <div className="mx-root">
+    <main className="mx-root">
       <MatrixRain />
       <div className="mx-grid-bg" />
 
@@ -74,7 +74,7 @@ function CheckoutContent() {
           <h1 style={{ marginTop: 10, fontWeight: 900, fontSize: "clamp(22px,5vw,32px)" }}>
             Selesaikan <span style={{ color: "#00FF88" }}>Pembayaran</span>
           </h1>
-          <div style={{ marginTop: 8, fontSize: 11, color: "rgba(255,255,255,0.4)" }}>
+          <div style={{ marginTop: 8, fontSize: 11, color: "rgba(255,255,255,0.58)" }}>
             Transaksi QRIS Aman • Terenkripsi <span style={{ color: "rgba(255,180,0,0.8)" }}>• Admin Aktif 12.00 – 23.00 WIB</span>
           </div>
         </div>
@@ -123,7 +123,7 @@ function CheckoutContent() {
             alt="QRIS Payment"
             style={{ maxWidth: 260, width: "100%", margin: "0 auto", display: "block", border: "4px solid #fff" }}
           />
-          <div style={{ marginTop: 14, fontSize: 10, color: "rgba(255,255,255,0.4)" }}>
+          <div style={{ marginTop: 14, fontSize: 10, color: "rgba(255,255,255,0.58)" }}>
             Bisa dibayar pakai GoPay, OVO, DANA, ShopeePay, m-Banking — semua aplikasi berlogo QRIS.
           </div>
           <div style={{ marginTop: 12, display: "inline-flex", alignItems: "center", gap: 6, border: "1px solid rgba(255,180,0,0.4)", color: "rgba(255,180,0,0.9)", fontSize: 10, padding: "4px 10px" }}>
@@ -168,11 +168,11 @@ function CheckoutContent() {
             Sudah Punya License? Login &amp; Klaim
           </a>
         </div>
-        <div style={{ marginTop: 16, fontSize: 10, color: "rgba(255,255,255,0.3)", textAlign: "center" }}>
+        <div style={{ marginTop: 16, fontSize: 10, color: "rgba(255,255,255,0.55)", textAlign: "center" }}>
           Admin Telegram: @{TELEGRAM_USERNAME}
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 

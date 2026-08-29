@@ -19,5 +19,13 @@
     "@types/node": "^20.14.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0"
-  }
+  },
+  "browserslist": [
+    "chrome >= 96",
+    "edge >= 96",
+    "firefox >= 95",
+    "safari >= 15",
+    "ios_saf >= 15",
+    "not dead"
+  ]
 }

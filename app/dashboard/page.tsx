@@ -62,7 +62,7 @@ export default function DashboardPage() {
   if (!user) return null;
 
   return (
-    <div className="mx-root">
+    <main className="mx-root">
       <MatrixRain />
       <div className="mx-grid-bg" />
       <header className="mx-header"><div className="mx-header-inner">
@@ -80,7 +80,7 @@ export default function DashboardPage() {
           <div style={{fontWeight:900, fontSize:13, marginBottom:6}}>DOWNLOAD_EA.EX5</div>
           <div style={{fontSize:11, color:"rgba(255,255,255,0.5)", marginBottom:16}}>Satu file untuk semua tier. Tier auto dari license key.</div>
           <a href={eaUrl} target="_blank" className="mx-btn-solid mx-glow-green" style={{display:"inline-block", padding:"10px 18px", fontSize:12, textDecoration:"none"}}>▼ Download EA</a>
-          <div style={{fontSize:9, color:"rgba(255,255,255,0.3)", marginTop:10, wordBreak:"break-all"}}>{eaUrl}</div>
+          <div style={{fontSize:9, color:"rgba(255,255,255,0.55)", marginTop:10, wordBreak:"break-all"}}>{eaUrl}</div>
         </div>
 
         {/* KLAIM */}
@@ -100,7 +100,7 @@ export default function DashboardPage() {
             <button onClick={handleKlaim} disabled={loading || !inputKey} className="mx-btn-solid" style={{height:42, padding:"0 22px"}}>{loading?"[... ]":"KLAIM"}</button>
           </div>
 
-          <div style={{marginTop:12, fontSize:10.5, color:"rgba(255,255,255,0.4)"}}>
+          <div style={{marginTop:12, fontSize:10.5, color:"rgba(255,255,255,0.58)"}}>
             Belum punya key atau belum dapat balasan Admin?{" "}
             <a href="https://t.me/daryantobot" target="_blank" rel="noopener noreferrer" style={{color:"#00FF88"}}>Chat Admin di Telegram →</a>
           </div>
@@ -110,7 +110,7 @@ export default function DashboardPage() {
         <div style={{border:"1px solid rgba(255,255,255,0.12)", background:"rgba(10,10,10,0.9)", padding:20}}>
           <div style={{fontWeight:900, fontSize:13, marginBottom:12}}>LICENSE SAYA [{licenses.length}]</div>
           {licenses.length===0 ? (
-            <div style={{border:"1px dashed rgba(255,255,255,0.2)", padding:12, fontSize:11, color:"rgba(255,255,255,0.4)"}}>[ ] Belum ada license</div>
+            <div style={{border:"1px dashed rgba(255,255,255,0.2)", padding:12, fontSize:11, color:"rgba(255,255,255,0.58)"}}>[ ] Belum ada license</div>
           ) : (
             <div style={{display:"flex", flexDirection:"column", gap:8}}>
               {licenses.map((l:any,i:number)=>(
@@ -126,6 +126,6 @@ export default function DashboardPage() {
           )}
         </div>
       </div>
-    </div>
+    </main>
   );
 }
