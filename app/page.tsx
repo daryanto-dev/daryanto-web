@@ -114,7 +114,7 @@ export default function HomePage() {
             <TypedLine text="AUTO SIGNAL" onDone={() => setLine2Visible(true)} />
             <span className="mx-type-cursor" />
           </span>
-          <span className={`l2 ${line2Visible ? "mx-l2-visible" : "mx-l2-hidden"}`}>BUKAN AUTO TEBAK INI MESIN DETEKSI
+          <span className={`l2 ${line2Visible ? "mx-l2-visible" : "mx-l2-hidden"}`}>BUKAN AUTO TEBAK, INI MESIN DETEKSI
             ENTRY SEBELUM
             MARKET BERGERAK.</span>
         </h1>
