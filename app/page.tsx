@@ -120,7 +120,7 @@ export default function HomePage() {
             MARKET BERGERAK.</span>
         </h1>
 
-        <div className="mx-terminal-line"><span className="prompt">&gt;</span> Sinyal Trading MT5 - manual entry, EA tidak buka order sendiri // lisensi online per-akun // tier Demo/Premium/VIP // performa tercatat otomatis & transparan</div>
+        <div className="mx-terminal-line"><span className="prompt">&gt;</span> Sinyal Trading MT5 - manual entry (default), opsi auto-trade tersedia (Premium/VIP, off by default) // lisensi online per-akun // tier Demo/Premium/VIP // performa tercatat otomatis & transparan</div>
         <div className="mx-cta-row">
           <a href="#pricing" className="mx-btn-solid mx-glow-green" style={{height:48,padding:"0 28px",fontSize:14}}>▶ Lihat Paket Bot</a>
           <a href="/login?intent=demo" className="mx-btn-outline" style={{height:48,padding:"0 28px",fontSize:13}}>[ ] Coba Demo (XAUUSD, 30 Hari)</a>
@@ -225,7 +225,7 @@ export default function HomePage() {
         </RevealBox>
       </section>
       <footer className="mx-footer">
-        <div>DARYANTOBOT_PRO — Sinyal manual entry, EA tidak membuka order otomatis. Bukan nasihat finansial. Risiko trading ditanggung pengguna.</div>
+        <div>DARYANTOBOT_PRO — Sinyal berbasis analisa teknikal. Default: manual entry. Tersedia opsi auto-trade untuk tier Premium/VIP (nonaktif secara default, diaktifkan &amp; ditanggung risikonya sendiri oleh pengguna). Bukan nasihat finansial. Risiko trading ditanggung pengguna.</div>
         <div style={{ marginTop: 8 }}>
           <a href="/legal" style={{ color: "rgba(0,255,136,0.7)", textDecoration: "underline" }}>Baca Disclaimer, Legalitas &amp; Kebijakan Privasi →</a>
         </div>

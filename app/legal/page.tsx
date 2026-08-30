@@ -49,9 +49,14 @@ export default function LegalPage() {
 
         <Section title="1. Sifat Layanan">
           DaryantoBot Pro adalah alat bantu analisa teknikal (Expert Advisor) yang menampilkan sinyal, level entry, stop loss,
-          dan take profit berdasarkan struktur harga (BOS/CHoCH, order block, multi-timeframe, dsb). Semua sinyal bersifat{" "}
-          <b>manual entry</b> — EA <b>tidak</b> membuka, mengubah, atau menutup posisi trading secara otomatis atas nama
-          pengguna. Kamu tetap yang menekan tombol buy/sell di platform trading kamu sendiri.
+          dan take profit berdasarkan struktur harga (BOS/CHoCH, order block, multi-timeframe, dsb). <b>Secara default, semua
+          sinyal bersifat manual entry</b> — kamu sendiri yang menekan tombol buy/sell di platform trading kamu.
+          <br /><br />
+          Untuk tier <b>Premium dan VIP</b>, tersedia fitur opsional <b>auto-trade</b> yang <b>nonaktif secara default</b> dan
+          harus diaktifkan secara sadar oleh pengguna di pengaturan EA. Kalau diaktifkan, EA akan membuka posisi trading
+          secara otomatis sesuai parameter yang kamu tentukan sendiri (ukuran lot, tier sinyal minimum). Mengaktifkan
+          auto-trade sepenuhnya pilihan &amp; tanggung jawab pengguna — DaryantoBot Pro tidak bertanggung jawab atas kerugian
+          yang timbul dari posisi yang dibuka secara otomatis oleh fitur ini.
         </Section>
 
         <Section title="2. Bukan Broker &amp; Tidak Mengelola Dana Nasabah">

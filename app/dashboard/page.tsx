@@ -30,10 +30,13 @@ export default function DashboardPage() {
   }, []);
 
   const loadStats = async () => {
-    const { data: overall } = await supabase.from("signal_stats_overall").select("*").single();
+    const { data: overall, error: e1 } = await supabase.rpc("get_signal_stats_overall").single();
     if (overall) setOverallStats(overall);
-    const { data: byTier } = await supabase.from("signal_stats_by_tier").select("*").order("tier");
+    else if (e1) setOverallStats({ total_closed: 0, wins: 0, losses: 0, win_rate_pct: 0, symbols_tracked: 0 });
+
+    const { data: byTier, error: e2 } = await supabase.rpc("get_signal_stats_by_tier");
     if (byTier) setTierStats(byTier);
+    else if (e2) setTierStats([]);
   };
 
   const loadLicenses = async (uid?: string) => {
