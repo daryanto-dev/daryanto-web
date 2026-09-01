@@ -737,9 +737,9 @@ h2 { font-size: 14px; margin: 0 0 12px; color: var(--text); letter-spacing: 0.05
   gap: 8px;
 }
 .dash-steps li {
-  font-size: 11.5px;
-  color: rgba(255,255,255,0.65);
-  line-height: 1.6;
+  font-size: 13px;
+  color: rgba(255,255,255,0.72);
+  line-height: 1.65;
 }
 .dash-steps b { color: #fff; }
 .dash-steps code {

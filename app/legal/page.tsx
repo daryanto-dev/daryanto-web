@@ -8,8 +8,8 @@ export const metadata = {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div style={{ marginBottom: 28 }}>
-      <h2 style={{ fontSize: 15, fontWeight: 900, color: "#00FF88", marginBottom: 10, letterSpacing: "0.02em" }}>{title}</h2>
-      <div style={{ fontSize: 12.5, color: "rgba(255,255,255,0.7)", lineHeight: 1.8 }}>{children}</div>
+      <h2 style={{ fontSize: 17, fontWeight: 900, color: "#00FF88", marginBottom: 10, letterSpacing: "0.02em" }}>{title}</h2>
+      <div style={{ fontSize: 14.5, color: "rgba(255,255,255,0.75)", lineHeight: 1.8 }}>{children}</div>
     </div>
   );
 }
@@ -33,14 +33,14 @@ export default function LegalPage() {
         <div style={{ textAlign: "center", marginBottom: 36 }}>
           <div style={{ fontSize: 11, letterSpacing: "0.3em", color: "rgba(0,255,136,0.7)" }}>LEGAL_NOTICE.TXT</div>
           <h1 style={{ marginTop: 10, fontWeight: 900, fontSize: "clamp(22px,5vw,30px)" }}>Disclaimer, Legalitas &amp; Privasi</h1>
-          <div style={{ marginTop: 8, fontSize: 11, color: "rgba(255,255,255,0.58)" }}>Terakhir diperbarui: 29 Agustus 2026</div>
+          <div style={{ marginTop: 8, fontSize: 12.5, color: "rgba(255,255,255,0.62)" }}>Terakhir diperbarui: 29 Agustus 2026</div>
         </div>
 
         <div style={{ border: "1px solid rgba(255,180,0,0.35)", background: "rgba(255,180,0,0.06)", padding: 16, marginBottom: 32 }}>
-          <div style={{ fontWeight: 900, fontSize: 11, color: "rgba(255,180,0,0.9)", marginBottom: 6, letterSpacing: "0.1em" }}>
+          <div style={{ fontWeight: 900, fontSize: 13, color: "rgba(255,180,0,0.9)", marginBottom: 6, letterSpacing: "0.1em" }}>
             BACA SEBELUM MENGGUNAKAN LAYANAN INI
           </div>
-          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", lineHeight: 1.7 }}>
+          <div style={{ fontSize: 14, color: "rgba(255,255,255,0.75)", lineHeight: 1.75 }}>
             Trading forex, emas, dan kripto mengandung risiko tinggi kehilangan modal. Sinyal &amp; indikator yang disediakan
             DaryantoBot Pro bersifat <b>informasional/edukatif</b>, <b>bukan jaminan profit</b>, dan <b>bukan nasihat keuangan
             personal</b>. Keputusan trading sepenuhnya ada di tangan kamu.
@@ -165,7 +165,7 @@ export default function LegalPage() {
           terbaru selalu tersedia di halaman ini.
         </Section>
 
-        <div style={{ marginTop: 40, textAlign: "center", fontSize: 10.5, color: "rgba(255,255,255,0.55)" }}>
+        <div style={{ marginTop: 40, textAlign: "center", fontSize: 12.5, color: "rgba(255,255,255,0.62)" }}>
           Ada pertanyaan soal disclaimer ini?{" "}
           <a href="https://t.me/daryantobot" target="_blank" rel="noopener noreferrer" style={{ color: "#00FF88" }}>
             Chat Admin di Telegram →
