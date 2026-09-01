@@ -220,7 +220,7 @@ export default function HomePage() {
         <RevealBox>
           <div style={{border:"1px solid rgba(0,255,136,0.2)",background:"#000",padding:24,textAlign:"center"}}>
             <div style={{fontSize:11,letterSpacing:"0.2em",color:"rgba(0,255,136,0.6)"}}>[PERFORMANCE_MATRIX]</div>
-            <p style={{marginTop:12,fontSize:13,color:"rgba(255,255,255,0.6)",maxWidth:560,marginLeft:"auto",marginRight:"auto"}}>Setiap sinyal tercatat otomatis (win/loss per tier) lewat sistem tracking real-time. Statistik performa akan tampil transparan di dashboard begitu data cukup terkumpul - bukan klaim yang dikarang di landing page.</p>
+            <p style={{marginTop:12,fontSize:14.5,color:"rgba(255,255,255,0.65)",maxWidth:560,marginLeft:"auto",marginRight:"auto"}}>Setiap sinyal tercatat otomatis (win/loss per tier) lewat sistem tracking real-time. Statistik performa akan tampil transparan di dashboard begitu data cukup terkumpul - bukan klaim yang dikarang di landing page.</p>
           </div>
         </RevealBox>
       </section>
