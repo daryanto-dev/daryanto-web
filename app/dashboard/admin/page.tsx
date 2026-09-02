@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase, EDGE_URL } from "@/lib/supabaseClient";
 import MatrixRain from "../../MatrixRain";
 
 const ADMIN_EMAILS = ["daryanto.id@gmail.com", "daryanto.store@gmail.com", "linasofah44@gmail.com"];
@@ -17,14 +17,19 @@ export default function AdminPage() {
   const [catatan, setCatatan] = useState("");
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [aiReports, setAiReports] = useState<any[]>([]);
+  const [aiGenerating, setAiGenerating] = useState(false);
+  const [aiError, setAiError] = useState("");
 
   const load = async () => {
     const { data: lic } = await supabase.from("licenses").select("*").order("created_at", { ascending: false });
     const { data: act } = await supabase.from("activations").select("*").order("last_online", { ascending: false }).limit(20);
     const { data: files } = await supabase.storage.from("ea-builds").list("", { sortBy: { column: "created_at", order: "desc" } });
+    const { data: reports } = await supabase.from("analysis_reports").select("*").order("created_at", { ascending: false }).limit(10);
     if (lic) setLicenses(lic);
     if (act) setActivations(act);
     if (files) setEaFiles(files);
+    if (reports) setAiReports(reports);
   };
 
   useEffect(() => {
@@ -88,6 +93,34 @@ export default function AdminPage() {
 
   const copyKey = (k: string) => { navigator.clipboard.writeText(k); alert("Copied: " + k); };
 
+  const handleGenerateReport = async () => {
+    setAiGenerating(true);
+    setAiError("");
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
+      const res = await fetch(`${EDGE_URL}/analyze-performance`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${session?.access_token || anonKey}`,
+          "apikey": anonKey,
+        },
+      });
+      const json = await res.json();
+      if (!res.ok || json.ok === false) {
+        setAiError(json.message || "Gagal generate laporan (cek secret ANTHROPIC_API_KEY di Supabase).");
+      } else if (json.skipped) {
+        setAiError(json.message || "Tidak ada data cukup untuk periode ini.");
+      } else {
+        await load();
+      }
+    } catch (e: any) {
+      setAiError(e?.message || "Gagal menghubungi function analyze-performance.");
+    }
+    setAiGenerating(false);
+  };
+
   // STATS FIX
   const demo = licenses.filter(l => l.tier?.toLowerCase().includes("demo")).length;
   const prem = licenses.filter(l => l.tier?.toLowerCase().includes("premium")).length;
@@ -132,6 +165,57 @@ export default function AdminPage() {
             </div>
             <button onClick={handleGenerate} disabled={loading} className="mx-btn-solid mx-glow-green" style={{height:38, padding:"0 22px"}}>{loading?"[ GENERATING... ]":"Generate"}</button>
           </div>
+        </div>
+
+        {/* AI PERFORMANCE ANALYSIS */}
+        <div style={{border:"1px solid rgba(0,255,136,0.3)", background:"rgba(10,10,10,0.95)", padding:20, marginBottom:20}}>
+          <div style={{display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:10, marginBottom:14}}>
+            <h2 style={{fontFamily:"JetBrains Mono", fontSize:16, fontWeight:900, letterSpacing:"0.1em", margin:0}}>AI Performance Analysis</h2>
+            <button onClick={handleGenerateReport} disabled={aiGenerating} className="mx-btn-solid mx-glow-green" style={{height:34, padding:"0 18px", fontSize:11}}>
+              {aiGenerating ? "[ MENGANALISA... ]" : "⟳ Generate Now"}
+            </button>
+          </div>
+          <div style={{fontFamily:"JetBrains Mono", fontSize:10, color:"rgba(255,255,255,0.5)", marginBottom:14}}>
+            Otomatis jalan tiap Senin 04:00 UTC via pg_cron (analyze-performance, model claude-sonnet-4-6). Tombol di atas trigger manual di luar jadwal.
+          </div>
+
+          {aiError && (
+            <div style={{border:"1px solid rgba(255,120,60,0.4)", background:"rgba(255,120,60,0.08)", color:"#ff9a5c", padding:"10px 12px", fontFamily:"JetBrains Mono", fontSize:11, marginBottom:14}}>
+              ⚠ {aiError}
+            </div>
+          )}
+
+          {aiReports.length === 0 && !aiError && (
+            <div style={{fontFamily:"JetBrains Mono", fontSize:11, color:"rgba(255,255,255,0.5)"}}>Belum ada laporan. Klik "Generate Now" atau tunggu jadwal mingguan.</div>
+          )}
+
+          {aiReports[0] && (
+            <div style={{border:"1px solid rgba(0,255,136,0.2)", background:"#0a0a0a", padding:16, marginBottom:aiReports.length>1?14:0}}>
+              <div style={{display:"flex", justifyContent:"space-between", flexWrap:"wrap", gap:8, marginBottom:10, fontFamily:"JetBrains Mono"}}>
+                <span style={{fontSize:11, color:"#00FF88"}}>Periode: {aiReports[0].period_start} → {aiReports[0].period_end}</span>
+                <span style={{fontSize:10, color:"rgba(255,255,255,0.5)"}}>
+                  {aiReports[0].stats?.total_trades ?? "-"} trade · win rate {aiReports[0].stats?.win_rate!=null ? (aiReports[0].stats.win_rate*100).toFixed(1)+"%" : "-"} · {aiReports[0].model_used}
+                </span>
+              </div>
+              <div style={{fontFamily:"JetBrains Mono", fontSize:12, lineHeight:1.6, whiteSpace:"pre-wrap", color:"rgba(255,255,255,0.88)"}}>
+                {aiReports[0].report_text}
+              </div>
+            </div>
+          )}
+
+          {aiReports.length > 1 && (
+            <details style={{fontFamily:"JetBrains Mono"}}>
+              <summary style={{cursor:"pointer", fontSize:11, color:"rgba(255,255,255,0.58)", marginBottom:10}}>Riwayat laporan sebelumnya ({aiReports.length - 1})</summary>
+              {aiReports.slice(1).map((r: any, i: number) => (
+                <div key={i} style={{borderTop:"1px solid rgba(255,255,255,0.08)", padding:"12px 0"}}>
+                  <div style={{fontSize:11, color:"#00FF88", marginBottom:6}}>
+                    {r.period_start} → {r.period_end} · {r.stats?.total_trades ?? "-"} trade · win rate {r.stats?.win_rate!=null ? (r.stats.win_rate*100).toFixed(1)+"%" : "-"}
+                  </div>
+                  <div style={{fontSize:11, lineHeight:1.5, whiteSpace:"pre-wrap", color:"rgba(255,255,255,0.7)"}}>{r.report_text}</div>
+                </div>
+              ))}
+            </details>
+          )}
         </div>
 
         {/* TABLE LICENSE */}
