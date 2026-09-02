@@ -175,7 +175,7 @@ export default function AdminPage() {
               {aiGenerating ? "[ MENGANALISA... ]" : "⟳ Generate Now"}
             </button>
           </div>
-          <div style={{fontFamily:"JetBrains Mono", fontSize:10, color:"rgba(255,255,255,0.5)", marginBottom:14}}>
+          <div style={{fontFamily:"JetBrains Mono", fontSize:13, lineHeight:1.5, color:"rgba(255,255,255,0.6)", marginBottom:14}}>
             Otomatis jalan tiap Senin 04:00 UTC via pg_cron (analyze-performance, model claude-sonnet-4-6). Tombol di atas trigger manual di luar jadwal.
           </div>
 
@@ -186,7 +186,7 @@ export default function AdminPage() {
           )}
 
           {aiReports.length === 0 && !aiError && (
-            <div style={{fontFamily:"JetBrains Mono", fontSize:11, color:"rgba(255,255,255,0.5)"}}>Belum ada laporan. Klik "Generate Now" atau tunggu jadwal mingguan.</div>
+            <div style={{fontFamily:"JetBrains Mono", fontSize:13, color:"rgba(255,255,255,0.6)"}}>Belum ada laporan. Klik "Generate Now" atau tunggu jadwal mingguan.</div>
           )}
 
           {aiReports[0] && (
