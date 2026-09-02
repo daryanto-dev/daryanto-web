@@ -109,7 +109,7 @@ export default function AdminPage() {
       });
       const json = await res.json();
       if (!res.ok || json.ok === false) {
-        setAiError(json.message || "Gagal generate laporan (cek secret ANTHROPIC_API_KEY di Supabase).");
+        setAiError((json.message || "Gagal generate laporan") + (json.detail ? " — " + json.detail : ""));
       } else if (json.skipped) {
         setAiError(json.message || "Tidak ada data cukup untuk periode ini.");
       } else {
