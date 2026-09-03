@@ -99,7 +99,7 @@ export default function DashboardPage() {
           {!overallStats ? (
             <div style={{fontSize:12.5, color:"rgba(255,255,255,0.5)"}}>Memuat data...</div>
           ) : overallStats.total_closed === 0 ? (
-            <div style={{fontSize:12.5, color:"rgba(255,255,255,0.5)"}}>Belum ada sinyal yang selesai (closed) untuk ditampilkan.</div>
+            <div style={{fontSize:12.5, color:"rgba(255,255,255,0.5)"}}>Belum ada posisi auto-trade (eksekusi otomatis) yang closed untuk ditampilkan - matrix ini khusus menghitung order yang benar-benar dieksekusi EA (fitur auto-trade), bukan sinyal manual di chart. Aktifkan opsi auto-trade (Premium/VIP) untuk mulai mengumpulkan data di sini.</div>
           ) : (
             <>
               <div style={{display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(120px,1fr))", gap:12, marginBottom:18}}>
