@@ -218,9 +218,22 @@ export default function HomePage() {
 
       <section className="mx-section">
         <RevealBox>
-          <div style={{border:"1px solid rgba(0,255,136,0.2)",background:"#000",padding:24,textAlign:"center"}}>
-            <div style={{fontSize:11,letterSpacing:"0.2em",color:"rgba(0,255,136,0.6)"}}>[PERFORMANCE_MATRIX]</div>
-            <p style={{marginTop:12,fontSize:14.5,color:"rgba(255,255,255,0.65)",maxWidth:560,marginLeft:"auto",marginRight:"auto"}}>Setiap sinyal tercatat otomatis (win/loss per tier) lewat sistem tracking real-time. Statistik performa akan tampil transparan di dashboard begitu data cukup terkumpul - bukan klaim yang dikarang di landing page.</p>
+          <div style={{border:"1px solid rgba(0,255,136,0.2)",background:"#000",padding:24}}>
+            <div style={{fontSize:11,letterSpacing:"0.2em",color:"rgba(0,255,136,0.6)",textAlign:"center"}}>[PERFORMANCE_MATRIX]</div>
+            <div style={{display:"flex",gap:16,flexWrap:"wrap",justifyContent:"center",marginTop:20}}>
+              <div style={{flex:"1 1 220px",maxWidth:260,border:"1px solid rgba(255,215,0,0.3)",padding:"18px 16px",textAlign:"center"}}>
+                <div style={{fontSize:11,color:"rgba(255,215,0,0.8)",letterSpacing:"0.1em"}}>TIER A+ 💎</div>
+                <div style={{fontSize:36,fontWeight:700,color:"#FFD700",marginTop:6}}>76.2%</div>
+                <div style={{fontSize:12,color:"rgba(255,255,255,0.55)",marginTop:4}}>winrate dari 21 sinyal tercatat (16 win / 5 loss)</div>
+                <div style={{fontSize:10.5,color:"rgba(255,255,255,0.4)",marginTop:8}}>⚠ Sample masih kecil - bukan jaminan hasil ke depan</div>
+              </div>
+              <div style={{flex:"1 1 220px",maxWidth:260,border:"1px solid rgba(0,255,255,0.25)",padding:"18px 16px",textAlign:"center"}}>
+                <div style={{fontSize:11,color:"rgba(0,255,255,0.8)",letterSpacing:"0.1em"}}>TIER SNIPER 🎯</div>
+                <div style={{fontSize:20,fontWeight:700,color:"#00FFFF",marginTop:6}}>Belum Ada Histori</div>
+                <div style={{fontSize:12,color:"rgba(255,255,255,0.55)",marginTop:4}}>0 sinyal closed tercatat - tier tervalidasi paling ketat, jarang muncul</div>
+              </div>
+            </div>
+            <p style={{marginTop:20,fontSize:13,color:"rgba(255,255,255,0.55)",maxWidth:560,marginLeft:"auto",marginRight:"auto",textAlign:"center"}}>Tier MEDIUM/STRONG sengaja tidak ditampilkan di sini - histori winrate-nya di bawah breakeven, dan di dashboard EA sudah otomatis ditandai "⚠ WATCH ONLY" (bukan sinyal untuk dieksekusi). Statistik lengkap semua tier, ter-update real-time, bisa dilihat di dashboard setelah login.</p>
           </div>
         </RevealBox>
       </section>
